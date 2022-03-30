@@ -2,8 +2,7 @@ import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from
 import React from "react";
 import logo from "../Assets/Images/a.png";
 import hyun from "../Assets/Images/b.png";
-import Login from "./Login";
-import Accueil from "./Accueil";
+
 const Introduction = ({navigation}) => {
   return (
     <View style={styles.container}>

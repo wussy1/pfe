@@ -6,7 +6,6 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import Introduction from "./Introduction";
 const image = { uri: "https://mfiles.alphacoders.com/773/773337.jpg" };
 
 const Splash_Screen = ({navigation}) => {
