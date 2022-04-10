@@ -15,7 +15,7 @@ const Sign_up = ({navigation}) => {
         <TextInput style={{width:'75%',borderColor:'#003984',borderWidth:2,padding:5,borderRadius:5}} placeholder='Mot de passe'></TextInput>
         <Text style={{marginRight:'16%',marginBottom:'1%',marginTop:'3%',fontSize:15}}>Entrez le mot de passe à nouveau</Text>
         <TextInput style={{width:'75%',borderColor:'#003984',borderWidth:2,padding:5,borderRadius:5}} placeholder='Nouveaux Mot de passe'></TextInput>
-        <TouchableOpacity  style={{height:'10%',width:'75%',marginTop:'10%',marginBottom:'-5%'}} >
+        <TouchableOpacity  style={{height:'10%',width:'75%',marginTop:'10%',marginBottom:'-5%'}} onPress={()=>navigation.navigate('Test')} >
     <Text style={styles.text}>Valider</Text>
     </TouchableOpacity>
     <View style={styles.containere}>

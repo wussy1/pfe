@@ -14,7 +14,6 @@ import Introduction from "./src/Views/Introduction";
 import Accueil from "./src/Views/Accueil";
 import Connexion from "./src/Views/Connexion";
 import Sign_up from "./src/Views/Sign_up";
-import Validation from "./src/Views/Validation";
 import Test from "./src/Views/Test";
 
 const Stack = createNativeStackNavigator();
@@ -22,14 +21,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Test" component={Test} />
+
         <Stack.Screen name="splash" options={{headerShown: false}} component={Splash_Screen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Connexion" component={Connexion} />
         <Stack.Screen name="introduction" options={{headerShown: false}} component={Introduction} />
         <Stack.Screen name="Accueil" component={Accueil} />
         <Stack.Screen name="Sign_up" component={Sign_up} />
-        <Stack.Screen name="Test" component={Test} />
-        <Stack.Screen name="Validation" options={{headerShown: false}} component={Validation} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
