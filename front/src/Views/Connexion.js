@@ -24,7 +24,7 @@ const Connexion = ({navigation}) => {
       <Text style={styles.te}>Connextion</Text>
       </TouchableOpacity>
       </View>
-      <TouchableOpacity  style={{height:'15%',width:'70%',marginTop:'43%'}} onPress={()=>navigation.navigate('Accueil')} >
+      <TouchableOpacity  style={{height:'15%',width:'70%',marginTop:'43%'}} onPress={()=>navigation.navigate('Navigation')} >
       <Text style={styles.tex}>IGNORER</Text>
       </TouchableOpacity>
     </View>

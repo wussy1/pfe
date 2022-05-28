@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import axios from 'axios'
 const Test = () => {
+const [kraheb,setKraheb]=useState([]);
 
 function getdonnes(){
-  axios.get('https://jsonplaceholder.typicode.com/todos/2').then((res)=>console.log(res.data))
+  axios.get('https://jsonplaceholder.typicode.com/posts').then((res)=>setKraheb(res.data))
 }
 useEffect(() => {
  getdonnes();
@@ -12,6 +13,7 @@ useEffect(() => {
 
   return (
     <View>
+      {kraheb.map((el)=><View style={{display:'flex',flexDirection:'column'}}><Text>{el.title}</Text><Text>{el.id}</Text></View>)}
       <Text>Test</Text>
     </View>
   )
