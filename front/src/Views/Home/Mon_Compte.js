@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { getUserData, LogoutUser } from "../../Utils/AsyncStorageFunctions";
 import { Surface } from "react-native-paper";
 import Feather from "react-native-vector-icons/Feather";
-import loader from "C:\pfe\front\src\Assets\Images/loader.GIF";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 const Mon_Compte = ({ navigation }) => {
   const [user, setUser] = useState("");
