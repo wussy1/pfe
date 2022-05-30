@@ -5,7 +5,6 @@ import Feather from "react-native-vector-icons/Feather";
 import axios from "axios";
 import { getUserData, storeUserData } from "../../Utils/AsyncStorageFunctions";
 import { Icon } from "react-native-elements";
-import { SafeAreaView } from "react-native-safe-area-context";
 const Apd_passe = ({ navigation }) => {
   const [passwordSecured, setPasswordSecured] = useState(true);
   const [pass, setPass] = useState("");

@@ -21,7 +21,15 @@ export const PlusItem = async (req, res) => {
       
   };
 
-  
+  /*get panier by user id */
+  export const getpanier_by_user = async (req, res) => {
+  const { id } = req.params;
+  await con.raw(`select pr.prod_name,pn.id as panier_id,pr.id_prod,pr.prix,pr.prod_image,cp.quantity from panier pn,commande_products cp,products pr where pn.id=cp.PanierId and pr.id_prod= cp.ProductId and pn.user_id=${id} `).then((users) => {
+      res.json(users[0]);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
 /* remove minus one to item quantity */
 
 export const MinusItem = async (req, res) => {
