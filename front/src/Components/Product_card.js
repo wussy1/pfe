@@ -7,7 +7,7 @@ const Product_card = (props) => {
       <View style={styles.container}>
         <Card>
           <Text style={styles.paragraph}>
-            
+           vevevevevmeknmvlknùl
           </Text>
         </Card>
       </View>

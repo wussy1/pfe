@@ -22,18 +22,18 @@ const Panier = ({ navigation }) => {
 
   async function getPanier(){
     await getUserData().then((res) =>
-    axios.get(`http://192.168.1.18:5000/api/ligne/by-user-id/${JSON.parse(res).id}`).then((rslt)=>setCart(rslt.data)))
+    axios.get(`http://192.168.1.74:5000/api/ligne/by-user-id/${JSON.parse(res).id}`).then((rslt)=>setCart(rslt.data)))
   }
 
  async function PlusItem(idpanier,idproduit){
-   await axios.post("http://192.168.1.18:5000/api/ligne/add",{
+   await axios.post("http://192.168.1.74:5000/api/ligne/add",{
       "id_panier":idpanier,
       "id_prod":idproduit
       }).then(()=>getPanier())
     
   }
   async function MinusItem(idpanier,idproduit){
-    await axios.post("http://192.168.1.18:5000/api/ligne/minus",{
+    await axios.post("http://192.168.1.74:5000/api/ligne/minus",{
        "id_panier":idpanier,
        "id_prod":idproduit
        }).then(()=>getPanier())
