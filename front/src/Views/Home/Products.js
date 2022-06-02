@@ -48,7 +48,7 @@ const Products = ({ route, navigation }) => {
 
   const [moreProducts, setmoreProducts] = useState([]);
   useEffect(() => {
-    axios.get("http://192.168.27.80:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
       console.log("********************************");
       console.log(res.data);
       setmoreProducts(res.data);
@@ -88,8 +88,6 @@ const Products = ({ route, navigation }) => {
       ]);*/
   const prod = route.params;
   useEffect(() => {
-    StatusBar.setBarStyle("dark-content");
-    StatusBar.setBackgroundColor("#fff");
   }, []);
 
   return (
@@ -99,7 +97,7 @@ const Products = ({ route, navigation }) => {
           style={{
             paddingRight: 10,
           }}
-          onPress={() => navigation.navigate("Accueil")}
+          onPress={() => navigation.goBack()}
         >
           <Icon name="arrow-left" type="font-awesome" size={25} color="#111" />
         </TouchableOpacity>

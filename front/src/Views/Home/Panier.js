@@ -16,33 +16,59 @@ import { ListItem, Left, Right, Radio, Content } from "native-base";
 import axios from "axios";
 import { getUserData } from "../../Utils/AsyncStorageFunctions";
 const Panier = ({ navigation }) => {
-  const [total,setTotal]=useState(0);
+  const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
   const [shippingMethod, setShippingMethod] = useState("Normal");
 
-  async function getPanier(){
+  async function makeCommand(){
     await getUserData().then((res) =>
-    axios.get(`http://192.168.27.80:5000/api/ligne/by-user-id/${JSON.parse(res).id}`).then((rslt)=>setCart(rslt.data)))
+    axios
+      .post(
+        `http://192.168.1.31:5000/api/comd/add`
+      ,{
+        "products": cart,
+        "user_id": JSON.parse(res).id,
+        "prix": cart.reduce(
+          (partialSum, a) =>
+            partialSum + (a.discount == null
+              ? a.prix * a.quantity
+              : (a.prix - a.prix * (a.discount / 100)) * a.quantity),
+          0
+        )
+      })
+      .then(() => getPanier().then(()=>navigation.navigate('Mon Compte', { screen: 'Commandes' })))
+  );
   }
 
- async function PlusItem(idpanier,idproduit){
-   await axios.post("http://192.168.27.80:5000/api/ligne/add",{
-      "id_panier":idpanier,
-      "id_prod":idproduit
-      }).then(()=>getPanier())
-    
+  async function getPanier() {
+    await getUserData().then((res) =>
+      axios
+        .get(
+          `http://192.168.1.31:5000/api/ligne/by-user-id/${JSON.parse(res).id}`
+        )
+        .then((rslt) => {setCart(rslt.data);console.log(rslt.data)})
+    );
   }
-  async function MinusItem(idpanier,idproduit){
-    await axios.post("http://192.168.27.80:5000/api/ligne/minus",{
-       "id_panier":idpanier,
-       "id_prod":idproduit
-       }).then(()=>getPanier())
-     
-   }
+
+  async function PlusItem(idpanier, idproduit) {
+    await axios
+      .post("http://192.168.1.31:5000/api/ligne/add", {
+        id_panier: idpanier,
+        id_prod: idproduit,
+      })
+      .then(() => getPanier());
+  }
+  async function MinusItem(idpanier, idproduit) {
+    await axios
+      .post("http://192.168.1.31:5000/api/ligne/minus", {
+        id_panier: idpanier,
+        id_prod: idproduit,
+      })
+      .then(() => getPanier());
+  }
 
   useEffect(async () => {
     getPanier();
-    StatusBar.setBarStyle("light-content", true);
   }, []);
   return (
     <View style={styles.container}>
@@ -62,74 +88,76 @@ const Panier = ({ navigation }) => {
       <View style={styles.cartContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.cartTitleView}>
-            <Icon   name="shopping-bag" size={26}  />
+            <Icon name="shopping-bag" size={26} />
             <Text style={styles.cartTitle}>My Cart</Text>
           </View>
 
           {cart.length > 0 ? (
             <View>
               {cart.map((product) => (
-                  <View key={product.id} style={styles.productView}>
-                    <Image
-                      style={styles.productImage}
-                      source={{
-                        uri: product.prod_image,
-                      }}
-                    />
-                    <View style={styles.productMiddleView}>
-                      <Text style={styles.productTitle}>{product.prod_name}</Text>
-                      <Text style={styles.productCompanyTitle}>
-                        {product.company}
+                <View key={product.id} style={styles.productView}>
+                  <Image
+                    style={styles.productImage}
+                    source={{
+                      uri: product.prod_image,
+                    }}
+                  />
+                  <View style={styles.productMiddleView}>
+                    <Text style={styles.productTitle}>{product.prod_name}</Text>
+                    <Text style={styles.productCompanyTitle}>
+                      {product.company}
+                    </Text>
+                  </View>
+                  <View style={styles.productRightView}>
+                    <Text style={styles.productPriceText}>
+                      {product.discount == null
+                        ? `$${product.prix}`
+                        : `${
+                            product.prix -
+                            product.prix * (product.discount / 100)
+                          }`}
+                    </Text>
+                    <View style={styles.productItemCounterView}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if (product.quantity === 1) {
+                            return Alert.alert(`Remove ${product.name}?`, "", [
+                              { text: "Cancel" },
+                              {
+                                text: "Remove",
+                                onPress: () => {
+                                  MinusItem(product.panier_id, product.id_prod);
+                                },
+                              },
+                            ]);
+                          }
+                          MinusItem(product.panier_id, product.id_prod);
+                        }}
+                      >
+                        <Icon
+                          style={styles.toggleCounterButton}
+                          name="minus-circle"
+                          type="font-awesome"
+                        />
+                      </TouchableOpacity>
+                      <Text style={styles.counterValue}>
+                        {product.quantity}
                       </Text>
-                    </View>
-                    <View style={styles.productRightView}>
-                      <Text
-                        style={styles.productPriceText}
-                      >{`$${product.prix}`}</Text>
-                      <View style={styles.productItemCounterView}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            if (product.quantity === 1) {
-                              return Alert.alert(
-                                `Remove ${product.name}?`,
-                                "",
-                                [
-                                  { text: "Cancel" },
-                                  {
-                                    text: "Remove",
-                                    onPress: () => {
-                                      MinusItem(product.panier_id,product.id_prod)
-                                    },
-                                  },
-                                ]
-                              );
-                            }
-                            MinusItem(product.panier_id,product.id_prod)
-                          }}
-                        >
-                          <Icon
-                            style={styles.toggleCounterButton}
-                            name="minus-circle"
-                            type="font-awesome"
-                          />
-                        </TouchableOpacity>
-                        <Text style={styles.counterValue}>
-                          {product.quantity}
-                        </Text>
-                        <TouchableOpacity
-                          onPress={() => {
-                           PlusItem(product.panier_id,product.id_prod)}}
-                        >
-                          <Icon
-                            style={styles.toggleCounterButton}
-                            name="plus-circle"
-                            type="font-awesome"
-                          />
-                        </TouchableOpacity>
-                      </View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          PlusItem(product.panier_id, product.id_prod);
+                        }}
+                      >
+                        <Icon
+                          style={styles.toggleCounterButton}
+                          name="plus-circle"
+                          type="font-awesome"
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
-                ))}
+                </View>
+              ))}
               <View style={styles.couponInputView}>
                 <TextInput
                   placeholder="Coupon Code"
@@ -142,9 +170,14 @@ const Panier = ({ navigation }) => {
               <View style={styles.subtotalView}>
                 <Text style={styles.subtotalText}>Subtotal -</Text>
                 <Text style={styles.subtotalPrice}>
-                  ${
-                   cart.reduce((partialSum, a) => partialSum + a.prix*a.quantity, 0)
-                   }
+                  $
+                  {cart.reduce(
+                    (partialSum, a) =>
+                      partialSum + (a.discount == null
+                        ? a.prix * a.quantity
+                        : (a.prix - a.prix * (a.discount / 100)) * a.quantity),
+                    0
+                  )}
                 </Text>
               </View>
               <View style={styles.shippingView}>
@@ -172,17 +205,18 @@ const Panier = ({ navigation }) => {
               </View>
               <View style={styles.totalView}>
                 <Text style={styles.totalText}>Total -</Text>
-                {shippingMethod === "Normal" ? (
-                  <Text style={styles.totalPrice}>
-                    ${cart.reduce((acc, val) => val.price + acc, 0)}
-                  </Text>
-                ) : (
-                  <Text style={styles.totalPrice}>
-                    ${cart.reduce((acc, val) => val.price + acc, 0) + 60}
-                  </Text>
-                )}
+                <Text>
+                  $
+                  {cart.reduce(
+                    (partialSum, a) =>
+                      partialSum + (a.discount == null
+                        ? a.prix * a.quantity
+                        : (a.prix - a.prix * (a.discount / 100)) * a.quantity),
+                    0
+                  )}
+                </Text>
               </View>
-              <TouchableOpacity style={styles.checkoutButton}>
+              <TouchableOpacity onPress={()=>makeCommand()} style={styles.checkoutButton}>
                 <Text style={styles.checkoutButtonText}>
                   Proceed to Checkout
                 </Text>

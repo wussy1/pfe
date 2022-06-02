@@ -8,6 +8,9 @@ import Aide from "./Home/Aide";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
+import Commandes from './Commandes';
+import ProductsByCategorie from './ProductsByCategorie';
+import Products from './Home/Products';
 
 const fullScreenWidth = Dimensions.get('window').width;
 
@@ -16,6 +19,8 @@ function AccueilStackScreen(){
     return(
         <Stack.Navigator>
             <Stack.Screen name='Accueil' options={{headerShown: false}}  component={Accueil}></Stack.Screen>
+            <Stack.Screen name="Products" options={{headerShown: false}} component={Products} /> 
+
         </Stack.Navigator>
     );
 }
@@ -23,6 +28,7 @@ function ProfileStackScreen(){
     return(
         <Stack.Navigator>
             <Stack.Screen name='Mon Compte' options={{headerShown: false}} component={Mon_Compte}></Stack.Screen>
+            <Stack.Screen name='Commandes' options={{headerShown: false}} component={Commandes}></Stack.Screen>
         </Stack.Navigator>
     );
 }
@@ -37,6 +43,8 @@ function CategorieStackScreen(){
     return(
         <Stack.Navigator>
             <Stack.Screen name='Categorie' component={Categorie}></Stack.Screen>
+            <Stack.Screen name="Products" options={{headerShown: false}} component={Products} /> 
+            <Stack.Screen name='ProductsByCategorie' component={ProductsByCategorie}></Stack.Screen>
         </Stack.Navigator>
     );
 }

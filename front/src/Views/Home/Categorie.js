@@ -1,12 +1,29 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const Categorie = () => {
+const Categorie = ({ navigation }) => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://192.168.1.31:5000/api/cat")
+      .then((res) => setCategories(res.data));
+  }, []);
+
   return (
     <View>
-      <Text>Categorie</Text>
+      {categories.map((el) => (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("ProductsByCategorie", { CatId: el.id_cat })
+          }
+          style={{ borderWidth: 1, padding: 10, margin: 10 }}
+        >
+          <Text>{el.name_cat}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
-  )
-}
+  );
+};
 
-export default Categorie
+export default Categorie;
