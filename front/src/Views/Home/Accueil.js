@@ -23,7 +23,7 @@ const Accueil = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    axios.get("http://192.168.1.18:5000/api/product/").then((res) => {
+    axios.get("http://192.168.27.80:5000/api/product/").then((res) => {
       console.log("********************************");
       console.log(res.data);
       setProducts(res.data);
@@ -170,7 +170,7 @@ const Accueil = ({ navigation }) => {
               <Text style={{ fontSize: 16 }}>
                 {product.discount == null
                   ? `${product.prix.toFixed(2)} TND `
-                  : `${(product.prix * (product.discount / 100)).toFixed(
+                  : `${(product.prix-(product.prix * (product.discount / 100))).toFixed(
                       2
                     )} TND`}
               </Text>
@@ -315,7 +315,7 @@ const Accueil = ({ navigation }) => {
             .fill(1)
             .map((el) =>
               products.map((product) => (
-                <TouchableOpacity onPress={() => navigation.navigate("Products")}>
+                <TouchableOpacity key={product.id} onPress={() => navigation.navigate("Products",product)}>
                   <Product product={product} />
                 </TouchableOpacity>
               ))

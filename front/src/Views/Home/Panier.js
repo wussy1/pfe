@@ -22,18 +22,18 @@ const Panier = ({ navigation }) => {
 
   async function getPanier(){
     await getUserData().then((res) =>
-    axios.get(`http://192.168.1.74:5000/api/ligne/by-user-id/${JSON.parse(res).id}`).then((rslt)=>setCart(rslt.data)))
+    axios.get(`http://192.168.27.80:5000/api/ligne/by-user-id/${JSON.parse(res).id}`).then((rslt)=>setCart(rslt.data)))
   }
 
  async function PlusItem(idpanier,idproduit){
-   await axios.post("http://192.168.1.74:5000/api/ligne/add",{
+   await axios.post("http://192.168.27.80:5000/api/ligne/add",{
       "id_panier":idpanier,
       "id_prod":idproduit
       }).then(()=>getPanier())
     
   }
   async function MinusItem(idpanier,idproduit){
-    await axios.post("http://192.168.1.74:5000/api/ligne/minus",{
+    await axios.post("http://192.168.27.80:5000/api/ligne/minus",{
        "id_panier":idpanier,
        "id_prod":idproduit
        }).then(()=>getPanier())
@@ -62,14 +62,14 @@ const Panier = ({ navigation }) => {
       <View style={styles.cartContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.cartTitleView}>
-            <Icon name="shopping-cart" type="font-awesome-5" />
+            <Icon   name="shopping-bag" size={26}  />
             <Text style={styles.cartTitle}>My Cart</Text>
           </View>
 
           {cart.length > 0 ? (
             <View>
               {cart.map((product) => (
-                  <View style={styles.productView}>
+                  <View key={product.id} style={styles.productView}>
                     <Image
                       style={styles.productImage}
                       source={{

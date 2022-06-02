@@ -29,7 +29,7 @@ const Apd_passe = ({ navigation }) => {
     console.log("it's here 0");
 
     axios
-      .put("http://192.168.1.176:5000/api/user/updatepassword/" + user.id, {
+      .put("http://192.168.27.80:5000/api/user/updatepassword/" + user.id, {
         password: newpassme,
       })
       .then(async (res) => {
@@ -137,7 +137,7 @@ const Apd_passe = ({ navigation }) => {
        <View style={styles.inputView}>
         <TextInput
           onChangeText={(text) => setNewpass(text)}
-          placeholder="Mot de passe"
+          placeholder="Nouveau mot de passe"
           placeholderTextColor="#666666"
           autoCorrect={false}
           secureTextEntry={passwordSecured}
