@@ -13,15 +13,15 @@ const Connexion = ({navigation}) => {
       <TouchableOpacity
           style={styles.buttonFacebookStyle}>
           <Image style={styles.image} source={g} />
-      <Text style={styles.text}>Connextion via google</Text></TouchableOpacity>
+      <Text style={styles.text}>Connextion via Google</Text></TouchableOpacity>
       <TouchableOpacity
           style={styles.buttonFacebookStyles}>
           <Image style={styles.image} source={f} />
-      <Text style={styles.text}>Connextion via facebook</Text></TouchableOpacity>
+      <Text style={styles.text}>Connextion via Facebook</Text></TouchableOpacity>
       <View style={styles.containere}>
       <Text style={styles.tet}>Déjà membre ?</Text>
       <TouchableOpacity  style={{height:'100%',width:'30%'}} onPress={()=>navigation.navigate('Login')} >
-      <Text style={styles.te}>Connextion</Text>
+      <Text style={styles.te}>Connexion</Text>
       </TouchableOpacity>
       </View>
       <TouchableOpacity  style={{height:'15%',width:'70%',marginTop:'43%'}} onPress={()=>navigation.navigate('Navigation')} >

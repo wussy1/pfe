@@ -96,6 +96,7 @@ const Mon_Compte = ({ navigation }) => {
 
         {
           <TouchableOpacity
+          onPress={()=>navigation.navigate("Commandes")}
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
@@ -112,7 +113,7 @@ const Mon_Compte = ({ navigation }) => {
                 size={IconSize}
                 color={"black"}
               />{" "}
-              Mes commende
+              Mes Commandes
             </Text>
             <Feather name="chevron-right" size={IconSize} color={"black"} />
           </TouchableOpacity>

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { getUserData } from "../../Utils/AsyncStorageFunctions";
 
 import Feather from "react-native-vector-icons/Feather";
 import Constants from "expo-constants";
@@ -29,6 +30,16 @@ const Rating = ({ rating, maxRating }) => {
     </View>
   );
 };
+async function AddItem( idproduit) {
+  await axios
+    .post("http://192.168.1.107:5000/api/ligne/add", {
+      id_user: userid,
+      id_prod: idproduit,
+      
+    })
+    
+    .then(() => getPanier());}
+
 const Products = ({ route, navigation }) => {
   const [isFavourite, setFavourite] = useState(false);
   const [color] = useState([
@@ -47,10 +58,11 @@ const Products = ({ route, navigation }) => {
   const [seeFullDescription, setSeeFullDescription] = useState(false);
 
   const [moreProducts, setmoreProducts] = useState([]);
-  useEffect(() => {
-    axios.get("http://192.168.27.80:5000/api/product/").then((res) => {
-      console.log("********************************");
-      console.log(res.data);
+  useEffect( () => {
+    console.log("el i")
+    getUserData().then((res)=>console.log(JSON.parse(res).id))
+    axios.get("http://192.168.1.107:5000/api/product/").then((res) => {
+   
       setmoreProducts(res.data);
     });
   }, []);
@@ -87,10 +99,8 @@ const Products = ({ route, navigation }) => {
         },
       ]);*/
   const prod = route.params;
-  useEffect(() => {
-    StatusBar.setBarStyle("dark-content");
-    StatusBar.setBackgroundColor("#fff");
-  }, []);
+  
+  useEffect(() => {}, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -99,7 +109,7 @@ const Products = ({ route, navigation }) => {
           style={{
             paddingRight: 10,
           }}
-          onPress={() => navigation.navigate("Accueil")}
+          onPress={() => navigation.goBack()}
         >
           <Icon name="arrow-left" type="font-awesome" size={25} color="#111" />
         </TouchableOpacity>
@@ -128,8 +138,7 @@ const Products = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.prixView}>
-            <Text style={styles.discountedPriceText}>{prod.prix} TND</Text>
-            <Text style={styles.actualPriceText}>
+            <Text style={styles.discountedPriceText}>
               {" "}
               {prod.discount == null
                 ? `${prod.prix.toFixed(2)} TND `
@@ -137,6 +146,7 @@ const Products = ({ route, navigation }) => {
                     2
                   )} TND`}
             </Text>
+            <Text style={styles.actualPriceText}>{prod.prix} TND</Text>
           </View>
           <View style={{ marginTop: 10 }}>
             <Rating rating={4} maxRating={5} />
@@ -173,7 +183,12 @@ const Products = ({ route, navigation }) => {
           </View>
         </View>
         <View style={{ flexDirection: "row", paddingHorizontal: 10 }}>
-          <TouchableOpacity style={styles.buyNowButton}>
+          <TouchableOpacity
+            style={styles.buyNowButton}
+            onPress={() => {
+              AddItem(prod.id_user, prod.id_prod);
+            }}
+          >
             <Text style={styles.buttonText}>Buy Now</Text>
           </TouchableOpacity>
         </View>

@@ -23,7 +23,7 @@ const Accueil = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    axios.get("http://192.168.27.80:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.107:5000/api/product/").then((res) => {
       console.log("********************************");
       console.log(res.data);
       setProducts(res.data);
@@ -163,11 +163,11 @@ const Accueil = ({ navigation }) => {
           <View style={{ flex: 3 }}>
             {/* -- Ratings View */}
             <View>
-              <Text>{product.prod_name}</Text>
+              <Text style={{margin:10,fontSize:16,fontWeight:'100'}}>{product.prod_name}</Text>
             </View>
             {/* -- prix View */}
             <View style={{ marginTop: 4 }}>
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16 ,marginLeft:10}}>
                 {product.discount == null
                   ? `${product.prix.toFixed(2)} TND `
                   : `${(product.prix-(product.prix * (product.discount / 100))).toFixed(
@@ -179,7 +179,7 @@ const Accueil = ({ navigation }) => {
                   style={{
                     color: "#57606f",
                     fontSize: 13,
-                    textDecorationLine: "line-through",
+                    textDecorationLine: "line-through",marginLeft:10
                   }}
                 >
                   {product.discount !== null ? ` ${product.prix} TND ` : null}

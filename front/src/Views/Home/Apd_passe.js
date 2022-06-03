@@ -29,17 +29,18 @@ const Apd_passe = ({ navigation }) => {
     console.log("it's here 0");
 
     axios
-      .put("http://192.168.27.80:5000/api/user/updatepassword/" + user.id, {
+      .put("http://192.168.1.107:5000/api/user/updatepassword/"+ user.id, {
         password: newpassme,
       })
       .then(async (res) => {
-        storeUserData(res.data).then(() => {
+     
+        
           alert("Succefuly changed");
           navigation.reset({
             index: 0,
             routes: [{ name: "Navigation" }],
           });
-        });
+      
       })
       .catch((err) => console.log("error =" + err));
   }

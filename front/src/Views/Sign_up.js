@@ -23,7 +23,7 @@ const Sign_up = ({ navigation }) => {
   function signup() {
     
     axios
-      .post("http://192.168.27.80:5000/api/user/register", {
+      .post("http://192.168.1.107:5000/api/user/register", {
         name: name,
         email: email,
         password: password,

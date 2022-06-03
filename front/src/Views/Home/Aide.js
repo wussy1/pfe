@@ -187,7 +187,7 @@ const Aide = ({ navigation }) => {
           }}
         >
           <Text>
-          Version de l'application 11.0.0
+          Version de l'application 0.6.0
           </Text>
         <Text style={{ color: "#c8c7cd", fontSize: 12 }}>À JOUR</Text></View>
         {

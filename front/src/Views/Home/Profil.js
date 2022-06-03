@@ -35,7 +35,7 @@ const Profil = ({navigation}) => {
     console.log("it's here 0")
 
     axios
-      .put("http://192.168.1.74:5000/api/user/updateuser/"+user.id, {
+      .put("http://192.168.1.107:5000/api/user/updateuser/"+user.id, {
         name: name,
         number: phoneNumber,
       })
@@ -173,7 +173,7 @@ const Profil = ({navigation}) => {
           }}
         >
           <TextInput
-            placeholder="Tper votre nom"
+            placeholder="Taper votre nom"
            
             autoCorrect={false}
             style={{

@@ -24,7 +24,7 @@ export const PlusItem = async (req, res) => {
   /*get panier by user id */
   export const getpanier_by_user = async (req, res) => {
   const { id } = req.params;
-  await con.raw(`select pr.prod_name,pn.id as panier_id,pr.id_prod,pr.prix,pr.prod_image,cp.quantity from panier pn,commande_products cp,products pr where pn.id=cp.PanierId and pr.id_prod= cp.ProductId and pn.user_id=${id} `).then((users) => {
+  await con.raw(`select pr.prod_name,pr.discount,pn.id as panier_id,pr.id_prod,pr.prix,pr.prod_image,cp.quantity from panier pn,commande_products cp,products pr where pn.id=cp.PanierId and pr.id_prod= cp.ProductId and pn.user_id=${id} `).then((users) => {
       res.json(users[0]);
     })
     .catch((err) => res.status(400).json("Error: " + err));
@@ -79,14 +79,14 @@ export const DeleteItem = async (req, res) => {
 /* get all commande */
 
 export const AddItem = async (req, res) => {
-  const {id_panier,id_prod}=req.body;
-
- await con
+  const {id_user,id_prod}=req.body;
+await con.select("id").from("panier").where("user_id",id_user).then(async(idusr)=>{
+  await con
   .select("*")
   .from("commande_products")
-  .where({ PanierId: id_panier , ProductId:id_prod}).then(async (prod) => {
+  .where({ PanierId: idusr[0].id , ProductId:id_prod}).then(async (prod) => {
     if (prod.length > 0) {
-      await con.raw(`UPDATE commande_products as cp set quantity = cp.quantity+1 where cp.PanierId =${id_panier} and cp.ProductId =${id_prod};`).then(() => {
+      await con.raw(`UPDATE commande_products as cp set quantity = cp.quantity+1 where cp.PanierId =${idusr[0].id} and cp.ProductId =${id_prod};`).then(() => {
         res.status(200).json({
           success: true,
           message: "Item qty +1"
@@ -94,7 +94,7 @@ export const AddItem = async (req, res) => {
       })
       .catch((err) => res.status(400).json("Error: " + err));
   }else{
-    let item = {ProductId:id_prod,quantity:1,PanierId:id_panier}
+    let item = {ProductId:id_prod,quantity:1,PanierId:idusr[0].id}
     await con
       .insert(item)
       .into("commande_products")
@@ -110,4 +110,6 @@ export const AddItem = async (req, res) => {
       );
       }
   });
+});
+ 
     }
