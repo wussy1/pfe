@@ -25,7 +25,7 @@ const Panier = ({ navigation }) => {
     await getUserData().then((res) =>
     axios
       .post(
-        `http://192.168.1.107:5000/api/comd/add`
+        `http://192.168.1.31:5000/api/comd/add`
       ,{
         "products": cart,
         "user_id": JSON.parse(res).id,
@@ -44,7 +44,7 @@ const Panier = ({ navigation }) => {
     await getUserData().then((res) =>
       axios
         .get(
-          `http://192.168.1.107:5000/api/ligne/by-user-id/${JSON.parse(res).id}`
+          `http://192.168.1.31:5000/api/ligne/by-user-id/${JSON.parse(res).id}`
         )
         .then((rslt) => {setCart(rslt.data);console.log(rslt.data)})
     );
@@ -52,15 +52,16 @@ const Panier = ({ navigation }) => {
 
   async function PlusItem(idpanier, idproduit) {
     await axios
-      .post("http://192.168.1.107:5000/api/ligne/add", {
+      .post("http://192.168.1.31:5000/api/ligne/plus", {
         id_panier: idpanier,
         id_prod: idproduit,
       })
       .then(() => getPanier());
   }
   async function MinusItem(idpanier, idproduit) {
+  
     await axios
-      .post("http://192.168.1.107:5000/api/ligne/minus", {
+      .post("http://192.168.1.31:5000/api/ligne/minus", {
         id_panier: idpanier,
         id_prod: idproduit,
       })
@@ -111,11 +112,11 @@ const Panier = ({ navigation }) => {
                   <View style={styles.productRightView}>
                     <Text style={styles.productPriceText}>
                       {product.discount == null
-                        ? `$${product.prix}`
-                        : `${
+                        ? `$${product.prix.toFixed(2)}`
+                        : `${(
                             product.prix -
                             product.prix * (product.discount / 100)
-                          }`}
+              ).toFixed(2)}`}
                     </Text>
                     <View style={styles.productItemCounterView}>
                       <TouchableOpacity
@@ -177,7 +178,7 @@ const Panier = ({ navigation }) => {
                         ? a.prix * a.quantity
                         : (a.prix - a.prix * (a.discount / 100)) * a.quantity),
                     0
-                  )}
+                  ).toFixed(2)}
                 </Text>
               </View>
               <View style={styles.shippingView}>
@@ -213,7 +214,7 @@ const Panier = ({ navigation }) => {
                         ? a.prix * a.quantity
                         : (a.prix - a.prix * (a.discount / 100)) * a.quantity),
                     0
-                  )}
+                  ).toFixed(2)}
                 </Text>
               </View>
               <TouchableOpacity onPress={()=>makeCommand()} style={styles.checkoutButton}>

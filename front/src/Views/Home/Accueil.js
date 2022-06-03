@@ -23,7 +23,7 @@ const Accueil = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    axios.get("http://192.168.1.107:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
       console.log("********************************");
       console.log(res.data);
       setProducts(res.data);

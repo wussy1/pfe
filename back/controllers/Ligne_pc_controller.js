@@ -81,10 +81,11 @@ export const DeleteItem = async (req, res) => {
 export const AddItem = async (req, res) => {
   const {id_user,id_prod}=req.body;
 await con.select("id").from("panier").where("user_id",id_user).then(async(idusr)=>{
+  console.log(idusr);
   await con
   .select("*")
   .from("commande_products")
-  .where({ PanierId: idusr[0].id , ProductId:id_prod}).then(async (prod) => {
+  .where({ PanierId:idusr[0].id , ProductId:id_prod}).then(async (prod) => {
     if (prod.length > 0) {
       await con.raw(`UPDATE commande_products as cp set quantity = cp.quantity+1 where cp.PanierId =${idusr[0].id} and cp.ProductId =${id_prod};`).then(() => {
         res.status(200).json({

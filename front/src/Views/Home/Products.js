@@ -30,17 +30,10 @@ const Rating = ({ rating, maxRating }) => {
     </View>
   );
 };
-async function AddItem( idproduit) {
-  await axios
-    .post("http://192.168.1.107:5000/api/ligne/add", {
-      id_user: userid,
-      id_prod: idproduit,
-      
-    })
-    
-    .then(() => getPanier());}
+
 
 const Products = ({ route, navigation }) => {
+  const [userid,setUserid]=useState();
   const [isFavourite, setFavourite] = useState(false);
   const [color] = useState([
     { id: 1, label: "white" },
@@ -58,49 +51,25 @@ const Products = ({ route, navigation }) => {
   const [seeFullDescription, setSeeFullDescription] = useState(false);
 
   const [moreProducts, setmoreProducts] = useState([]);
+  async function AddItem(idproduit) {
+    await axios
+      .post("http://192.168.1.31:5000/api/ligne/add", {
+        id_user: userid,
+        id_prod: idproduit,
+        
+      })
+      
+      .then((res) =>console.log(res) );}
   useEffect( () => {
-    console.log("el i")
-    getUserData().then((res)=>console.log(JSON.parse(res).id))
-    axios.get("http://192.168.1.107:5000/api/product/").then((res) => {
+    getUserData().then((res)=>setUserid(JSON.parse(res).id))
+    axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
    
       setmoreProducts(res.data);
     });
   }, []);
 
-  /* {
-          prod_name: 'Black Printed Tshirt',
-          prix: 19.49,
-          prod_image:
-            'https://images.unsplash.com/photo-1503341504253-dff4815485f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60',
-        },
-        {
-          prod_name: 'Black Printed Top (Women)',
-          prix: 19.49,
-          prod_image:
-            'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=90',
-        },
-        {
-          prod_name: 'White Solid Tshirt',
-          prix: 34.99,
-          prod_image:
-            'https://images.unsplash.com/photo-1574180566232-aaad1b5b8450?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60',
-        },
-        {
-          prod_name: 'Black Solid Tshirt',
-          prix: 34.99,
-          prod_image:
-            'https://images.unsplash.com/photo-1512327428889-607eeb19efe8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60',
-        },
-        {
-          prod_name: 'Red Top (Women)',
-          prix: 44.85,
-          prod_image:
-            'https://images.unsplash.com/photo-1456885284447-7dd4bb8720bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60',
-        },
-      ]);*/
   const prod = route.params;
   
-  useEffect(() => {}, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -186,7 +155,7 @@ const Products = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.buyNowButton}
             onPress={() => {
-              AddItem(prod.id_user, prod.id_prod);
+              AddItem(prod.id_prod);
             }}
           >
             <Text style={styles.buttonText}>Buy Now</Text>
