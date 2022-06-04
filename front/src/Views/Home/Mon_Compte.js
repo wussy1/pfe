@@ -158,6 +158,7 @@ const Mon_Compte = ({ navigation }) => {
         }
         {
           <TouchableOpacity
+          onPress={()=>navigation.navigate("Favoris")}
             style={{
               flexDirection: "row",
               justifyContent: "space-between",

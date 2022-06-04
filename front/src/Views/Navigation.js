@@ -11,6 +11,7 @@ import IonicIcon from 'react-native-vector-icons/Ionicons';
 import Commandes from './Commandes';
 import ProductsByCategorie from './ProductsByCategorie';
 import Products from './Home/Products';
+import Favoris from './Favoris';
 
 const fullScreenWidth = Dimensions.get('window').width;
 
@@ -29,6 +30,7 @@ function ProfileStackScreen(){
         <Stack.Navigator>
             <Stack.Screen name='Mon Compte' options={{headerShown: false}} component={Mon_Compte}></Stack.Screen>
             <Stack.Screen name='Commandes' options={{headerShown: false}} component={Commandes}></Stack.Screen>
+            <Stack.Screen name='Favoris' options={{headerShown: false}} component={Favoris}></Stack.Screen>
         </Stack.Navigator>
     );
 }

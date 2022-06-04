@@ -34,7 +34,8 @@ const Rating = ({ rating, maxRating }) => {
 
 const Products = ({ route, navigation }) => {
   const [userid,setUserid]=useState();
-  const [isFavourite, setFavourite] = useState(false);
+  const [isFavourite, setFavourite] = useState(null);
+  const [isit,setIsit]=useState("default");
   const [color] = useState([
     { id: 1, label: "white" },
     { id: 1, label: "black" },
@@ -51,6 +52,12 @@ const Products = ({ route, navigation }) => {
   const [seeFullDescription, setSeeFullDescription] = useState(false);
 
   const [moreProducts, setmoreProducts] = useState([]);
+  function addtofav(){
+    axios.post("http://192.168.1.31:5000/api/favoris/add-remove",{
+      "user_id":userid,
+"product_id":prod.id_prod
+    })
+  }
   async function AddItem(idproduit) {
     await axios
       .post("http://192.168.1.31:5000/api/ligne/add", {
@@ -60,13 +67,23 @@ const Products = ({ route, navigation }) => {
       })
       
       .then((res) =>console.log(res) );}
+
+ function checkFav(userid){ 
+   axios.post("http://192.168.1.31:5000/api/favoris/get",{
+    "user_id":userid,
+"product_id":prod.id_prod
+  }).then((res)=>{setFavourite(res.data.exist)}).catch((err)=>console.log(err.message))
+}
+
   useEffect( () => {
-    getUserData().then((res)=>setUserid(JSON.parse(res).id))
+    getUserData().then((res)=>{setUserid(JSON.parse(res).id);
+      checkFav(JSON.parse(res).id);
+    })
     axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
    
       setmoreProducts(res.data);
     });
-  }, []);
+  }, [isFavourite]);
 
   const prod = route.params;
   
@@ -82,7 +99,7 @@ const Products = ({ route, navigation }) => {
         >
           <Icon name="arrow-left" type="font-awesome" size={25} color="#111" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Products</Text>
+        <Text style={styles.headerTitle}>Products {isFavourite}</Text>
         <TouchableOpacity
           style={{
             paddingRight: 10,
@@ -102,8 +119,8 @@ const Products = ({ route, navigation }) => {
         <View style={styles.detailsView}>
           <View style={styles.productTitleView}>
             <Text style={styles.productTitle}>{prod.prod_name}</Text>
-            <TouchableOpacity onPress={() => setFavourite(!isFavourite)}>
-              <FAIcon name={isFavourite ? "heart" : "heart-o"} size={22} />
+            <TouchableOpacity onPress={() => {setFavourite(!isFavourite);addtofav()}}>
+              <FAIcon name={isFavourite==true? "heart" :isFavourite ==false ? "heart-o":"spinner"} size={22} />
             </TouchableOpacity>
           </View>
           <View style={styles.prixView}>
