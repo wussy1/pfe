@@ -3,11 +3,14 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  Animated,
+  Easing,
+  StatusBar,
   ImageBackground,
+  Dimensions,
   Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
@@ -22,82 +25,22 @@ import { Icon as RNEIcon } from "react-native-elements";
 const Accueil = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [products, setProducts] = useState([]);
+  const [showSearch, setShowSearch] = useState(false);
+  const fadeAnim = useRef(
+    new Animated.Value(Dimensions.get("window").width)
+  ).current; // Initial value for opacity: 0
+  const fadeY = useRef(
+    new Animated.Value(Dimensions.get("window").height)
+  ).current; // Initial value
+
   useEffect(() => {
     axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
       console.log("********************************");
+      StatusBar.setBackgroundColor("#333333");
       console.log(res.data);
       setProducts(res.data);
     });
   }, []);
-  /*const [products] = useState([
-    {
-      prod_name:
-        'HP 15s Ryzen 5 Quad Core - (8 GB/1 TB HDD/Windows 10 Home) 15s-GR0009AU',
-      prod_image: 'https://i.prod_imageur.com/FVhuBzL.jpg',
-      
-      prix: '41,990',
-     
-      discount: '6% off',
-      offer: 'No cost EMI ₹4,666/month. Standard EMI also available',
-      description: [
-        '8 GB/1 TB HDD',
-        'Windows 10 Home',
-        '15.6 inch Full HD',
-        'Thin and Light Laptop',
-      ],
-    },
-    {
-      prod_name:
-        'Dell Vostro Core i5 10th Gen - (8 GB/1 TB HDD/256 GB SSD/Windows 10 Home) Vostro 3491',
-      prod_image: 'https://i.prod_imageur.com/XZIJXIq.jpg',
-      rating: '4.2',
-      ratingCount: '112',
-      prix: '53,490',
-      actualprix: '53,859',
-      discount: '',
-      offer: 'No cost EMI ₹5,944/month. Standard EMI also available',
-      description: [
-        '8 GB/1 TB HDD/256 GB SSD',
-        'Windows 10 Home',
-        '14 inch Full HD Display',
-        'Without Optical Disk Drive',
-      ],
-    },
-    {
-      prod_name:
-        'Apple MacBook Pro Core i9 9th Gen - (16 GB/1 TB SSD/Mac OS Catalina/4 GB Graphics)',
-      prod_image: 'https://i.prod_imageur.com/1ge8POI.jpg',
-      rating: '4.6',
-      ratingCount: '42',
-      prix: '2,24,900',
-      actualprix: '2,39,900',
-      discount: '6% off',
-      offer: 'No cost EMI ₹24,989/month. Standard EMI also available',
-      description: [
-        '16 GB/1 TB SSD/4 GB Graphics',
-        'Mac OS Catalina',
-        '16 inch, Silver, 2 kg',
-        'IPS Retina Display ',
-      ],
-    },
-    {
-      prod_name:
-        'Asus Vivobook Ryzen 5 Quad Core - (8 GB/1 TB HDD/Windows 10 Pro) D1401D-EK166',
-      prod_image: 'https://i.prod_imageur.com/UvL33gA.jpg',
-      rating: '4.0',
-      ratingCount: '36',
-      prix: '50,900',
-      actualprix: '',
-      discount: '',
-      offer: 'Get Google One 3-month Free Trial on purchase of a Laptop',
-      description: [
-        '8 GB/1 TB HDD/Ryzen 5 Quad Core',
-        'Windows 10 Pro',
-        '14 inch, Transparent Silver',
-        'Without Optical Disk Drive',
-      ],
-    },
-  ]);*/
 
   const [carouselItems, setCarousel] = useState([
     {
@@ -163,23 +106,27 @@ const Accueil = ({ navigation }) => {
           <View style={{ flex: 3 }}>
             {/* -- Ratings View */}
             <View>
-              <Text style={{margin:10,fontSize:16,fontWeight:'100'}}>{product.prod_name}</Text>
+              <Text style={{ margin: 10, fontSize: 16, fontWeight: "100" }}>
+                {product.prod_name}
+              </Text>
             </View>
             {/* -- prix View */}
             <View style={{ marginTop: 4 }}>
-              <Text style={{ fontSize: 16 ,marginLeft:10}}>
+              <Text style={{ fontSize: 16, marginLeft: 10 }}>
                 {product.discount == null
                   ? `${product.prix.toFixed(2)} TND `
-                  : `${(product.prix-(product.prix * (product.discount / 100))).toFixed(
-                      2
-                    )} TND`}
+                  : `${(
+                      product.prix -
+                      product.prix * (product.discount / 100)
+                    ).toFixed(2)} TND`}
               </Text>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <Text
                   style={{
                     color: "#57606f",
                     fontSize: 13,
-                    textDecorationLine: "line-through",marginLeft:10
+                    textDecorationLine: "line-through",
+                    marginLeft: 10,
                   }}
                 >
                   {product.discount !== null ? ` ${product.prix} TND ` : null}
@@ -236,93 +183,162 @@ const Accueil = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.view}>
-          <Text style={{ fontSize: 18, color: "white", fontWeight: "bold" }}>
-            Accueil
-          </Text>
-        </View>
-        <View style={styles.view}></View>
-
-        <View style={styles.views}>
-          {
-            <TouchableOpacity>
-              <Feather
-                name="search"
-                size={IconSize}
-                color={"white"}
-                style={{ marginLeft: "20%" }}
-              />
-            </TouchableOpacity>
-          }
-          {
-            <TouchableOpacity onPress={() => navigation.navigate("Panier")}>
-              <Feather name="shopping-cart" size={IconSize} color={"white"} />
-            </TouchableOpacity>
-          }
-        </View>
-      </View>
-      <ScrollView style={{ padding: 1 }}>
-        <View style={{ width: "100%", padding: 15 }}>
-          <Carousel
-            data={carouselItems}
-            sliderWidth={Dimensions.get("window").width}
-            itemWidth={Dimensions.get("window").width * 0.8}
-            enableMomentum={false}
-            lockScrollWhileSnapping
-            autoplay
-            loop
-            autoplayInterval={2000}
-            renderItem={_renderItem}
-            onSnapToItem={(index) => setActiveIndex(index)}
-          />
-        </View>
-        <View
-          style={{ height: 200, marginTop: "2%", backgroundColor: "white" }}
-        >
-          <Text
+      {showSearch && (
+        <View style={{ height: "100%", width: "100%", position: "absolute" }}>
+          <Animated.View
             style={{
-              padding: 4,
-              fontWeight: "100",
-              fontSize: 16,
-              color: "#333333",
-              textAlign: "center",
-              marginBottom: "1%",
+              width: "100%",
+              backgroundColor: "white",
+              zIndex: 10,
+              borderBottomWidth: 2,
+              borderTopWidth: 2,
+              borderColor: "#333",
+              transform: [
+                {
+                  translateX: fadeAnim,
+                },
+              ],
             }}
           >
-            Service
-          </Text>
-          <TouchableOpacity
-            style={{ borderWidth: 1, height: "80%", width: "100%" }}
-            onPress={() => navigation.navigate("Service")}
+            <TouchableOpacity style={{padding:5,borderWidth:1}} onPress={() => setShowSearch(false)}>
+              <Icon
+                name="arrow-left"
+                type="font-awesome"
+                size={25}
+                color="#111"
+              />
+            </TouchableOpacity>
+          </Animated.View>
+          <Animated.View
+            style={{
+              height: "100%",
+              width: "100%",
+              backgroundColor: "#ddd",
+              zIndex: 20,
+              transform: [
+                {
+                  translateY: fadeY,
+                },
+              ],
+            }}
           >
-            <ImageBackground style={styles.image} source={h}>
-              <Text style={styles.text}>
-                <FontAwesome
-                  prod_name="wrench"
+            <Text>WTF IS THIS</Text>
+          </Animated.View>
+        </View>
+      )}
+      <View>
+        <View style={styles.header}>
+          <View style={styles.view}>
+            <Text style={{ fontSize: 18, color: "white", fontWeight: "bold" }}>
+              Accueil
+            </Text>
+          </View>
+          <View style={styles.view}></View>
+
+          <View style={styles.views}>
+            {
+              <TouchableOpacity
+                onPress={() => {
+                  fadeAnim.setValue(-Dimensions.get("window").width);
+                  Animated.timing(fadeAnim, {
+                    toValue: 0,
+                    duration: 250, // the duration of the animation
+                    easing: Easing.linear, // the style of animation
+                    useNativeDriver: true,
+                  }).start();
+                  fadeY.setValue(Dimensions.get("window").height);
+
+                  setTimeout(() => {
+                    Animated.timing(fadeY, {
+                      toValue: 0,
+                      duration: 150, // the duration of the animation
+                      easing: Easing.linear, // the style of animation
+                      useNativeDriver: true,
+                    }).start();
+                  }, 500);
+                  setShowSearch(true);
+                }}
+              >
+                <Feather
+                  name="search"
                   size={IconSize}
                   color={"white"}
-                />{" "}
-                Prendre rendez-vous{" "}
-              </Text>
-            </ImageBackground>
-          </TouchableOpacity>
+                  style={{ marginLeft: "20%" }}
+                />
+              </TouchableOpacity>
+            }
+            {
+              <TouchableOpacity onPress={() => navigation.navigate("Panier")}>
+                <Feather name="shopping-cart" size={IconSize} color={"white"} />
+              </TouchableOpacity>
+            }
+          </View>
         </View>
+        <ScrollView style={{ padding: 1 }}>
+          <View style={{ width: "100%", padding: 15 }}>
+            <Carousel
+              data={carouselItems}
+              sliderWidth={Dimensions.get("window").width}
+              itemWidth={Dimensions.get("window").width * 0.8}
+              enableMomentum={false}
+              lockScrollWhileSnapping
+              autoplay
+              loop
+              autoplayInterval={2000}
+              renderItem={_renderItem}
+              onSnapToItem={(index) => setActiveIndex(index)}
+            />
+          </View>
+          <View
+            style={{ height: 200, marginTop: "2%", backgroundColor: "white" }}
+          >
+            <Text
+              style={{
+                padding: 4,
+                fontWeight: "100",
+                fontSize: 16,
+                color: "#333333",
+                textAlign: "center",
+                marginBottom: "1%",
+              }}
+            >
+              Service
+            </Text>
+            <TouchableOpacity
+              style={{ borderWidth: 1, height: "80%", width: "100%" }}
+              onPress={() => navigation.navigate("Service")}
+            >
+              <ImageBackground style={styles.image} source={h}>
+                <Text style={styles.text}>
+                  <FontAwesome
+                    prod_name="wrench"
+                    size={IconSize}
+                    color={"white"}
+                  />{" "}
+                  Prendre rendez-vous{" "}
+                </Text>
+              </ImageBackground>
+            </TouchableOpacity>
+          </View>
 
-        <>
-          {/* Products List */}
-          {Array(1)
-            .fill(1)
-            .map((el) =>
-              products.map((product) => (
-                <TouchableOpacity key={product.id} onPress={() => navigation.navigate("Products",product)}>
-                  <Product product={product} />
-                </TouchableOpacity>
-              ))
-            )}
-          <View style={{ height: 20 }}></View>
-        </>
-      </ScrollView>
+          <>
+            {/* Products List */}
+            {Array(1)
+              .fill(1)
+              .map((el) =>
+                products.map((product) => (
+                  <TouchableOpacity
+                    key={product.id}
+                    onPress={() => navigation.navigate("Products", product)}
+                  >
+                    <Product product={product} />
+                  </TouchableOpacity>
+                ))
+              )}
+            <View style={{ height: 20 }}></View>
+          </>
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -331,15 +347,13 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    marginTop: "7%",
+    marginTop: StatusBar.currentHeight,
   },
   containerr: {
     flex: 1,
   },
   header: {
-    height: "7%",
-    elevation: 4,
-
+    zIndex: 2,
     justifyContent: "space-between",
 
     alignItems: "center",
