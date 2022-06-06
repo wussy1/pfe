@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-native";
 import { getUserData } from "../../Utils/AsyncStorageFunctions";
-
 import Feather from "react-native-vector-icons/Feather";
 import Constants from "expo-constants";
 import { Feather as Icon, FontAwesome as FAIcon } from "@expo/vector-icons";
@@ -31,11 +30,10 @@ const Rating = ({ rating, maxRating }) => {
   );
 };
 
-
 const Products = ({ route, navigation }) => {
-  const [userid,setUserid]=useState();
+  const [user, setUser] = useState(null);
   const [isFavourite, setFavourite] = useState(null);
-  const [isit,setIsit]=useState("default");
+  const [isit, setIsit] = useState("default");
   const [color] = useState([
     { id: 1, label: "white" },
     { id: 1, label: "black" },
@@ -52,41 +50,45 @@ const Products = ({ route, navigation }) => {
   const [seeFullDescription, setSeeFullDescription] = useState(false);
 
   const [moreProducts, setmoreProducts] = useState([]);
-  function addtofav(){
-    axios.post("http://192.168.1.31:5000/api/favoris/add-remove",{
-      "user_id":userid,
-"product_id":prod.id_prod
-    })
+  function addtofav() {
+    axios.post("http://192.168.1.31:5000/api/favoris/add-remove", {
+      user_id: user.id,
+      product_id: prod.id_prod,
+    });
   }
   async function AddItem(idproduit) {
     await axios
       .post("http://192.168.1.31:5000/api/ligne/add", {
-        id_user: userid,
+        id_user: user.id,
         id_prod: idproduit,
-        
       })
-      
-      .then((res) =>console.log(res) );}
 
- function checkFav(userid){ 
-   axios.post("http://192.168.1.31:5000/api/favoris/get",{
-    "user_id":userid,
-"product_id":prod.id_prod
-  }).then((res)=>{setFavourite(res.data.exist)}).catch((err)=>console.log(err.message))
-}
+      .then((res) => console.log(res));
+  }
+  function checkFav(userid) {
+    axios
+      .post("http://192.168.1.31:5000/api/favoris/get", {
+        user_id: userid,
+        product_id: prod.id_prod,
+      })
+      .then((res) => {
+        setFavourite(res.data.exist);
+      })
+      .catch((err) => console.log(err.message));
+  }
 
-  useEffect( () => {
-    getUserData().then((res)=>{setUserid(JSON.parse(res).id);
+  useEffect(() => {
+    console.log("el user id is");
+    getUserData().then((res) => {
+      setUser(JSON.parse(res));
       checkFav(JSON.parse(res).id);
-    })
+    });
     axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
-   
       setmoreProducts(res.data);
     });
   }, [isFavourite]);
 
   const prod = route.params;
-  
 
   return (
     <View style={{ flex: 1 }}>
@@ -104,7 +106,12 @@ const Products = ({ route, navigation }) => {
           style={{
             paddingRight: 10,
           }}
-          onPress={() => navigation.navigate("Panier")}
+          onPress={() => {
+            user == null
+              ? navigation.navigate("Login")
+              : navigation.navigate("Panier")
+          }}
+         
         >
           <Feather name="shopping-cart" size={25} color={"#111"} />
         </TouchableOpacity>
@@ -119,8 +126,22 @@ const Products = ({ route, navigation }) => {
         <View style={styles.detailsView}>
           <View style={styles.productTitleView}>
             <Text style={styles.productTitle}>{prod.prod_name}</Text>
-            <TouchableOpacity onPress={() => {setFavourite(!isFavourite);addtofav()}}>
-              <FAIcon name={isFavourite==true? "heart" :isFavourite ==false ? "heart-o":"spinner"} size={22} />
+            <TouchableOpacity
+              onPress={() => {
+                setFavourite(!isFavourite);
+                addtofav();
+              }}
+            >
+              <FAIcon
+                name={
+                  isFavourite == true
+                    ? "heart"
+                    : isFavourite == false
+                    ? "heart-o"
+                    : "spinner"
+                }
+                size={22}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.prixView}>
@@ -172,7 +193,9 @@ const Products = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.buyNowButton}
             onPress={() => {
-              AddItem(prod.id_prod);
+              user == null
+                ? navigation.navigate("Login")
+                : AddItem(prod.id_prod);
             }}
           >
             <Text style={styles.buttonText}>Buy Now</Text>

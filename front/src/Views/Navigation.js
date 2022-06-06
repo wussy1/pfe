@@ -12,9 +12,7 @@ import Commandes from './Commandes';
 import ProductsByCategorie from './ProductsByCategorie';
 import Products from './Home/Products';
 import Favoris from './Favoris';
-
 const fullScreenWidth = Dimensions.get('window').width;
-
 const Stack = createNativeStackNavigator()
 function AccueilStackScreen(){
     return(

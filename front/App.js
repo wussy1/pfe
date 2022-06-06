@@ -21,6 +21,7 @@ import Apd_passe from "./src/Views/Home/Apd_passe";
 import Panier from "./src/Views/Home/Panier";
 import Service from "./src/Views/Home/Service";
 import { getUserData } from "./src/Utils/AsyncStorageFunctions.js";
+import Products from "./src/Views/Home/Products";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -45,7 +46,8 @@ export default function App() {
       <Stack.Screen name="introduction" options={{headerShown: false}} component={Introduction} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Connexion" component={Connexion} />
-      
+      <Stack.Screen name="Products" options={{headerShown: false}} component={Products} /> 
+
       <Stack.Screen name="Accueil" options={{headerShown: false}} component={Accueil} />
       <Stack.Screen name="Sign_up" component={Sign_up} />
       <Stack.Screen name="Navigation" options={{headerShown: false}} component={Navigation} />

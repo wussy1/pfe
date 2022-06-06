@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Dimensions,
   Image,
+  TextInput,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Carousel from "react-native-snap-carousel";
@@ -18,13 +19,15 @@ import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 import h from "../../Assets/Images/h.png";
 import { Feather as Icon } from "@expo/vector-icons";
-
 // npm i react-native-elements
 import { Icon as RNEIcon } from "react-native-elements";
+import { getUserData } from "../../Utils/AsyncStorageFunctions";
 
 const Accueil = ({ navigation }) => {
+  const [user, setUser] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [products, setProducts] = useState([]);
+  const [searchedProds, setSearchProds] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const fadeAnim = useRef(
     new Animated.Value(Dimensions.get("window").width)
@@ -33,7 +36,14 @@ const Accueil = ({ navigation }) => {
     new Animated.Value(Dimensions.get("window").height)
   ).current; // Initial value
 
+  function getSearched(search){
+    axios.get(`http://192.168.1.31:5000/api/product/prod/${search}`).then((result)=>{setSearchProds(result.data)})
+  }
+
   useEffect(() => {
+    getUserData().then((res) => {
+      setUser(JSON.parse(res));
+    });
     axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
       console.log("********************************");
       StatusBar.setBackgroundColor("#333333");
@@ -89,8 +99,11 @@ const Accueil = ({ navigation }) => {
         style={{
           backgroundColor: "#fff",
           marginTop: 10,
-          borderBottomColor: "#dfe4ea",
-          borderBottomWidth: 1,
+          borderRadius:20,
+          borderWidth:1,
+          borderColor:'#999',
+          marginHorizontal:10,
+          
           paddingVertical: 10,
         }}
       >
@@ -103,7 +116,7 @@ const Accueil = ({ navigation }) => {
             />
           </View>
           {/* Product Details View */}
-          <View style={{ flex: 3 }}>
+          <View style={{ flex: 3,marginLeft:20 }}>
             {/* -- Ratings View */}
             <View>
               <Text style={{ margin: 10, fontSize: 16, fontWeight: "100" }}>
@@ -188,7 +201,7 @@ const Accueil = ({ navigation }) => {
           <Animated.View
             style={{
               width: "100%",
-              backgroundColor: "white",
+              backgroundColor: "black",
               zIndex: 10,
               borderBottomWidth: 2,
               borderTopWidth: 2,
@@ -200,14 +213,37 @@ const Accueil = ({ navigation }) => {
               ],
             }}
           >
-            <TouchableOpacity style={{padding:5,borderWidth:1}} onPress={() => setShowSearch(false)}>
-              <Icon
-                name="arrow-left"
-                type="font-awesome"
-                size={25}
-                color="#111"
-              />
-            </TouchableOpacity>
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <TouchableOpacity
+                style={{
+                  padding: 5,
+                  width: "15%",
+                  marginTop: 10,
+                  marginBottom: 10,
+                }}
+                onPress={() => setShowSearch(false)}
+              >
+                <Icon
+                  name="arrow-left"
+                  type="font-awesome"
+                  size={25}
+                  color="white"
+                />
+              </TouchableOpacity>
+              <TextInput
+              onChangeText={(text)=>getSearched(text)}
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  margin: 10,
+                  backgroundColor: "white",
+                  borderRadius: 8,
+                  padding: 5,
+                  color: "black",
+                  fontSize: 18,
+                }}
+              ></TextInput>
+            </View>
           </Animated.View>
           <Animated.View
             style={{
@@ -222,7 +258,16 @@ const Accueil = ({ navigation }) => {
               ],
             }}
           >
-            <Text>WTF IS THIS</Text>
+            <ScrollView style={{marginBottom:"18%"}}>
+            {searchedProds.map((el) => (<TouchableOpacity
+                    key={el.id}
+                    onPress={() => navigation.navigate("Products", el)}
+                  >
+                    <Product product={el} />
+                  </TouchableOpacity>)
+            
+            )}
+            </ScrollView>
           </Animated.View>
         </View>
       )}
@@ -268,13 +313,17 @@ const Accueil = ({ navigation }) => {
               </TouchableOpacity>
             }
             {
-              <TouchableOpacity onPress={() => navigation.navigate("Panier")}>
+              <TouchableOpacity onPress={() => {
+                user == null
+                  ? navigation.navigate("Login")
+                  : navigation.navigate("Panier")
+              }}>
                 <Feather name="shopping-cart" size={IconSize} color={"white"} />
               </TouchableOpacity>
             }
           </View>
         </View>
-        <ScrollView style={{ padding: 1 }}>
+        <ScrollView style={{ padding: 1,marginBottom:'9%' }}>
           <View style={{ width: "100%", padding: 15 }}>
             <Carousel
               data={carouselItems}

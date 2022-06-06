@@ -1,4 +1,4 @@
-import { View, Text, Image,StatusBar } from "react-native";
+import { View, Text, Image,StatusBar, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getUserData } from "../Utils/AsyncStorageFunctions";
 import axios from "axios";
@@ -112,10 +112,10 @@ const Favoris = () => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-      {favorisList.map((el) => (
-                  <Product product={el} />
-                 
-                  ))}
+<ScrollView>
+{favorisList.map((el) => (
+<Product product={el} />))}
+</ScrollView>
     </View>
   );
 };

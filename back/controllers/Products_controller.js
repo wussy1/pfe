@@ -32,6 +32,19 @@ export const getProduct = async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
+/*get product pa name */
+export const getProd = async (req, res) => {
+  const { prod_name } = req.params;
+  
+  await con
+    .select("*")
+    .from("products")
+    .where('prod_name', 'like', `%${prod_name}%`)
+    .then((products) => {
+      res.json(products);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
 /* to get only one product by cat */
 export const getProductByCat = async (req, res) => {
   const { id_cat } = req.params;
