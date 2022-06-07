@@ -19,8 +19,6 @@ import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 import h from "../../Assets/Images/h.png";
 import { Feather as Icon } from "@expo/vector-icons";
-// npm i react-native-elements
-import { Icon as RNEIcon } from "react-native-elements";
 import { getUserData } from "../../Utils/AsyncStorageFunctions";
 
 const Accueil = ({ navigation }) => {
