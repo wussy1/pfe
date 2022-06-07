@@ -12,7 +12,7 @@ const Login = ({navigation}) => {
   function signin() {
     console.log("executing")
     axios
-      .post("http://192.168.1.31:5000/api/user/login", {
+      .post("http://192.168.1.107:5000/api/user/login", {
         email: email,
         password: password,
         
@@ -45,7 +45,10 @@ const Login = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity  style={{height:'10%',width:'60%'}}  onPress={()=>navigation.navigate('Connexion')}>
       <Text style={styles.te}>Créer un compte</Text></TouchableOpacity>
-      <TouchableOpacity  style={{height:'15%',width:'70%',marginTop:'10%'}} onPress={()=>navigation.navigate('Accueil')} >
+      <TouchableOpacity  style={{height:'15%',width:'70%',marginTop:'10%'}} onPress={()=>navigation.reset({
+            index: 0,
+            routes: [{ name: "Accueil" }],
+          })} >
       <Text style={styles.tex}>IGNORER</Text>
       </TouchableOpacity>
     </View>

@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { getUserData, LogoutUser } from "../../Utils/AsyncStorageFunctions";
 import { Surface } from "react-native-paper";
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
 
-    marginTop: "7%",
+    marginTop: StatusBar.currentHeight,
   },
   header: {
     height: "7%",

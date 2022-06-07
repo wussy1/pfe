@@ -8,7 +8,7 @@ const Favoris = () => {
   useEffect(() => {
     getUserData().then((res) => {
       axios
-        .get(`http://192.168.1.31:5000/api/favoris/get/${JSON.parse(res).id}`)
+        .get(`http://192.168.1.107:5000/api/favoris/get/${JSON.parse(res).id}`)
         .then((result) => {
           setFavorisList(result.data);
           console.log(result.data);
@@ -21,7 +21,6 @@ const Favoris = () => {
       <View
         style={{
           backgroundColor: "#fff",
-          marginTop: 10,
           borderBottomColor: "#dfe4ea",
           borderBottomWidth: 1,
           paddingVertical: 10,

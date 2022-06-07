@@ -11,7 +11,10 @@ const Introduction = ({navigation}) => {
       <TouchableOpacity  style={{height:'15%',width:'70%',marginTop:'40%'}} onPress={()=>navigation.navigate('Login')} >
       <Text style={styles.text}>S'IDENTIFIER</Text>
       </TouchableOpacity>
-      <TouchableOpacity  style={{height:'15%',width:'70%'}} onPress={()=>navigation.navigate('Accueil')} >
+      <TouchableOpacity  style={{height:'15%',width:'70%'}} onPress={()=>navigation.reset({
+            index: 0,
+            routes: [{ name: "Accueil" }],
+          })} >
       <Text style={styles.texte}>IGNORER</Text>
       </TouchableOpacity>
     </View>

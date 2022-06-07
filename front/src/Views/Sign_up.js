@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  
 } from "react-native";
 import React, { useRef, useState } from "react";
 import c from "../Assets/Images/c.png";
@@ -23,7 +24,7 @@ const Sign_up = ({ navigation }) => {
   function signup() {
     
     axios
-      .post("http://192.168.1.31:5000/api/user/register", {
+      .post("http://192.168.1.107:5000/api/user/register", {
         name: name,
         email: email,
         password: password,
@@ -50,11 +51,11 @@ const Sign_up = ({ navigation }) => {
     Alert.alert(phoneNumber);
   };
   return (
-    <ScrollView>
     <View style={styles.container}>
+      <ScrollView>
       <Image
         resizeMode="stretch"
-        style={{ height:120, width: "70%", marginBottom: "0%" }}
+        style={{ height:120, width: "100%"}}
         source={c}
       />
       <Text
@@ -81,7 +82,7 @@ const Sign_up = ({ navigation }) => {
       autoFocus
         onChangeText={(text) => setName(text)}
         style={{
-          width: "75%",
+          width: "100%",
           borderColor: "#003984",
           borderWidth: 2,
           padding: 5,
@@ -102,7 +103,7 @@ const Sign_up = ({ navigation }) => {
       <TextInput
         onChangeText={(text) => setEmail(text)}
         style={{
-          width: "75%",
+          width: "100%",
           borderColor: "#003984",
           borderWidth: 2,
           padding: 5,
@@ -124,7 +125,7 @@ const Sign_up = ({ navigation }) => {
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}
         style={{
-          width: "75%",
+          width: "100%",
           borderColor: "#003984",
           borderWidth: 2,
           padding: 5,
@@ -145,7 +146,7 @@ const Sign_up = ({ navigation }) => {
       <TextInput
       secureTextEntry={true}
         style={{
-          width: "75%",
+          width: "100%",
           borderColor: "#003984",
           borderWidth: 2,
           padding: 5,
@@ -170,8 +171,7 @@ const Sign_up = ({ navigation }) => {
         onPress={() => signup()}
         style={{
           height: "10%",
-          width: "75%",
-          marginTop: "5%",
+         marginTop: "5%",
           marginBottom: "-5%",
         }}
       >
@@ -181,20 +181,23 @@ const Sign_up = ({ navigation }) => {
       <View style={styles.containere}>
         <Text style={styles.tet}>Déjà membre ?</Text>
         <TouchableOpacity
-          style={{ height: "100%", width: "30%" }}
-          onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.tee}>Connextion</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        style={{ height: "15%", width: "70%", marginTop: "10%" }}
-        onPress={() => navigation.navigate("Accueil")}
+        style={{ height: "15%", marginTop: "10%" }}
+        onPress={()=>navigation.reset({
+          index: 0,
+          routes: [{ name: "Accueil" }],
+        })}
       >
         <Text style={styles.tex}>IGNORER</Text>
       </TouchableOpacity>
-    </View>
-    </ScrollView>
+      </ScrollView>
+      </View>
+    
   );
 };
 const styles = StyleSheet.create({
@@ -202,7 +205,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-
+width:"100%",
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "white",
@@ -287,7 +290,7 @@ const styles = StyleSheet.create({
   },
 
   phoneNumberView: {
-    width: "75%",
+    width: "100%",
     height: 50,
     backgroundColor: "white",
     borderRadius: 10,

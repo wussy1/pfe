@@ -27,8 +27,8 @@ function ProfileStackScreen(){
     return(
         <Stack.Navigator>
             <Stack.Screen name='Mon Compte' options={{headerShown: false}} component={Mon_Compte}></Stack.Screen>
-            <Stack.Screen name='Commandes' options={{headerShown: false}} component={Commandes}></Stack.Screen>
-            <Stack.Screen name='Favoris' options={{headerShown: false}} component={Favoris}></Stack.Screen>
+            <Stack.Screen name='Commandes' component={Commandes}></Stack.Screen>
+            <Stack.Screen name='Favoris'  component={Favoris}></Stack.Screen>
         </Stack.Navigator>
     );
 }
