@@ -1,18 +1,18 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollViewBase } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import c from "../Assets/Images/c.png";
-import { ScrollView } from "react-native-gesture-handler";
 import {storeUserData} from '../Utils/AsyncStorageFunctions';
 import axios from "axios";
+
 const Login = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [wronginfo,setwronginfo]=useState(false);
-
+ 
   function signin() {
     console.log("executing")
     axios
-      .post("http://192.168.1.107:5000/api/user/login", {
+      .post("http://192.168.1.31:5000/api/user/login", {
         email: email,
         password: password,
         
@@ -28,7 +28,8 @@ const Login = ({navigation}) => {
       }).catch((err)=>setwronginfo(true));
   }
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={{  justifyContent:'flex-start',
+    alignItems:'center',}} style={styles.container}>
       
       < Image resizeMode="stretch" style={{height:100,width:'70%',marginBottom:'0%'}} source={c} />
       <Text style={{marginBottom:'15%',fontSize:25,marginTop:'0%',color:"#003984"}}>CONNEXION</Text>
@@ -51,7 +52,7 @@ const Login = ({navigation}) => {
           })} >
       <Text style={styles.tex}>IGNORER</Text>
       </TouchableOpacity>
-    </View>
+      </ScrollView>
 )
 }
 const styles = StyleSheet.create({
@@ -61,8 +62,7 @@ container: {
   flexDirection:'column',
   
   
-  justifyContent:'flex-start',
-  alignItems:'center',
+
   backgroundColor:"white",
 },
 
