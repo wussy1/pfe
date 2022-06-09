@@ -60,7 +60,7 @@ export const getProductByCat = async (req, res) => {
 
 /* to create a products */
 export const registerProduct = async (req, res) => {
-  const {prod_name,prix,description,quantity,prod_image,id_cat } = req.body;
+  const {prod_name,prix,description,quantity,prod_image,id_cat,discount } = req.body;
 
   // check if product already exists
   await con
@@ -78,6 +78,7 @@ const newProduct = {
   prod_name,
   prix,
   description,
+  discount,
   quantity,
   prod_image,
   id_cat,
@@ -120,8 +121,8 @@ export const deleteProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   const { id_prod } = req.params;
-  const { prod_name,prix,description,quantity,prod_image,id_cat } = req.body;
-  const updatedProd = {prod_name,prix,description,quantity,prod_image ,id_cat };
+  const { prod_name,prix,description,quantity,prod_image,id_cat,discount } = req.body;
+  const updatedProd = {prod_name,prix,description,quantity,prod_image ,id_cat,discount };
   await con
     .update(updatedProd)
     .from("products")
