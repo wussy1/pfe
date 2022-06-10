@@ -21,7 +21,7 @@ export const getCategory = async (req, res) => {
 
 /* to create a products */
 export const registerCat  = async (req, res) => {
-  const {name_cat} = req.body;
+  const {name_cat,icon} = req.body;
 
   // check if product already exists
   await con
@@ -37,6 +37,7 @@ export const registerCat  = async (req, res) => {
 
 const newCat = {
     name_cat,
+    icon
 };
 
  con
@@ -78,8 +79,8 @@ export const deleteCat = async (req, res) => {
 
 export const updateCat = async (req, res) => {
     const { id_cat } = req.params;
-    const { name_cat} = req.body;
-    const updatedCat = { name_cat };
+    const { name_cat,icon} = req.body;
+    const updatedCat = { name_cat,icon };
     await con
       .update(updatedCat)
       .from("category")

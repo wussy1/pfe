@@ -185,6 +185,44 @@ export const getusercommandes = async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 
 };
+
+export const acceptannulecommande = async (req,res)=>{
+  const {id,status}=req.params
+  console.log("el status")
+  console.log(status);
+status==1?( await con.raw(`UPDATE commande
+SET etat_comd = "accepté"
+WHERE id_comd=${id}`).then(()=>  res.status(200).json({
+        success: true,
+        message: "commande accepté",
+      }))):( await con.raw(`UPDATE commande
+SET etat_comd = "annulé"
+WHERE id_comd=${id}`).then(()=>  res.status(200).json({
+  success: true,
+  message: "commande annulé",
+})))
+ 
+}
+
+export const getAll = async (req, res) => {
+  var finalArray =[];
+  await con
+    .select("*").from("commande").innerJoin('users','users.id','commande.user_id').orderBy('date_comd', 'desc')
+
+    .then(async(rec) => {
+      for (let i = 0; i < rec.length; i += 1) {
+       await con.select(['commande_products.quantity', 'products.id_prod','products.prod_name','products.description','products.prod_image','products.discount','products.prix'])
+.from('commande_products')
+.innerJoin('products','products.id_prod','commande_products.ProductId')
+.where('commande_products.CommandeId',rec[i].id_comd)
+.then((res)=>finalArray.push({id:rec[i].id_comd,products:res,total:rec[i].prix,etat:rec[i].etat_comd,date:rec[i].date_comd,username:rec[i].name,usernumber:rec[i].number,useremail:rec[i].email}));
+        }
+    }).then(() => {
+      res.json(finalArray);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+
+};
 /*export const updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, email,number } = req.body;
