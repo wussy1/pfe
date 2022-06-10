@@ -34,15 +34,19 @@ const Accueil = ({ navigation }) => {
     new Animated.Value(Dimensions.get("window").height)
   ).current; // Initial value
 
-  function getSearched(search){
-    axios.get(`http://192.168.1.31:5000/api/product/prod/${search}`).then((result)=>{setSearchProds(result.data)})
+  function getSearched(search) {
+    axios
+      .get(`http://192.168.1.22:5000/api/product/prod/${search}`)
+      .then((result) => {
+        setSearchProds(result.data);
+      });
   }
 
   useEffect(() => {
     getUserData().then((res) => {
       setUser(JSON.parse(res));
     });
-    axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.22:5000/api/product/").then((res) => {
       console.log("********************************");
       StatusBar.setBackgroundColor("#333333");
       console.log(res.data);
@@ -97,11 +101,11 @@ const Accueil = ({ navigation }) => {
         style={{
           backgroundColor: "#fff",
           marginTop: 10,
-          borderRadius:20,
-          borderWidth:1,
-          borderColor:'#999',
-          marginHorizontal:10,
-          
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: "#999",
+          marginHorizontal: 10,
+
           paddingVertical: 10,
         }}
       >
@@ -114,7 +118,7 @@ const Accueil = ({ navigation }) => {
             />
           </View>
           {/* Product Details View */}
-          <View style={{ flex: 3,marginLeft:20 }}>
+          <View style={{ flex: 3, marginLeft: 20 }}>
             {/* -- Ratings View */}
             <View>
               <Text style={{ margin: 10, fontSize: 16, fontWeight: "100" }}>
@@ -229,7 +233,7 @@ const Accueil = ({ navigation }) => {
                 />
               </TouchableOpacity>
               <TextInput
-              onChangeText={(text)=>getSearched(text)}
+                onChangeText={(text) => getSearched(text)}
                 style={{
                   flex: 1,
                   borderWidth: 1,
@@ -256,15 +260,15 @@ const Accueil = ({ navigation }) => {
               ],
             }}
           >
-            <ScrollView style={{marginBottom:"18%"}}>
-            {searchedProds.map((el) => (<TouchableOpacity
-                    key={el.id}
-                    onPress={() => navigation.navigate("Products", el)}
-                  >
-                    <Product product={el} />
-                  </TouchableOpacity>)
-            
-            )}
+            <ScrollView style={{ marginBottom: "18%" }}>
+              {searchedProds.map((el) => (
+                <TouchableOpacity
+                  key={el.id}
+                  onPress={() => navigation.navigate("Products", el)}
+                >
+                  <Product product={el} />
+                </TouchableOpacity>
+              ))}
             </ScrollView>
           </Animated.View>
         </View>
@@ -311,17 +315,19 @@ const Accueil = ({ navigation }) => {
               </TouchableOpacity>
             }
             {
-              <TouchableOpacity onPress={() => {
-                user == null
-                  ? navigation.navigate("Login")
-                  : navigation.navigate("Panier")
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  user == null
+                    ? navigation.navigate("Login")
+                    : navigation.navigate("Panier");
+                }}
+              >
                 <Feather name="shopping-cart" size={IconSize} color={"white"} />
               </TouchableOpacity>
             }
           </View>
         </View>
-        <ScrollView style={{ padding: 1,marginBottom:'9%' }}>
+        <ScrollView style={{ padding: 1, marginBottom: "9%" }}>
           <View style={{ width: "100%", padding: 15 }}>
             <Carousel
               data={carouselItems}

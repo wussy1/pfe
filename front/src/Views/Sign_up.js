@@ -56,7 +56,7 @@ const Sign_up = ({ navigation }) => {
     if ( checkInputs()) {
      
      axios
-       .post("http://192.168.1.31:5000/api/user/register", {
+       .post("http://192.168.1.22:5000/api/user/register", {
          name: name,
          email: email,
          password: password,

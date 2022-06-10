@@ -6,7 +6,7 @@ const Categorie = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     axios
-      .get("http://192.168.1.31:5000/api/cat")
+      .get("http://192.168.1.22:5000/api/cat")
       .then((res) => setCategories(res.data));
   }, []);
 

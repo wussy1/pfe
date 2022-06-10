@@ -52,14 +52,14 @@ const Products = ({ route, navigation }) => {
 
   const [moreProducts, setmoreProducts] = useState([]);
   function addtofav() {
-    axios.post("http://192.168.1.31:5000/api/favoris/add-remove", {
+    axios.post("http://192.168.1.22:5000/api/favoris/add-remove", {
       user_id: user.id,
       product_id: prod.id_prod,
     });
   }
   async function AddItem(idproduit) {
     await axios
-      .post("http://192.168.1.31:5000/api/ligne/add", {
+      .post("http://192.168.1.22:5000/api/pan/add", {
         id_user: user.id,
         id_prod: idproduit,
       })
@@ -68,7 +68,7 @@ const Products = ({ route, navigation }) => {
   }
   function checkFav(userid) {
     axios
-      .post("http://192.168.1.31:5000/api/favoris/get", {
+      .post("http://192.168.1.22:5000/api/favoris/get", {
         user_id: userid,
         product_id: prod.id_prod,
       })
@@ -84,7 +84,7 @@ const Products = ({ route, navigation }) => {
       setUser(JSON.parse(res));
       checkFav(JSON.parse(res).id);
     });
-    axios.get("http://192.168.1.31:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.22:5000/api/product/").then((res) => {
       setmoreProducts(res.data);
     });
   }, [isFavourite]);

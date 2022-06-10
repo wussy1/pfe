@@ -5,7 +5,7 @@ import Products_routes from "./routes/Products_routes.js";
 import Commande_routes from "./routes/Commande_routes.js";
 import Categorie_routes from "./routes/Categorie_routes.js";
 import Service_routes from "./routes/Service_routes.js";
-import Ligne_pc_routes from "./routes/Ligne_pc_routes.js";
+import Panier_routes from "./routes/Panier_routes.js";
 import Favouris_routes from "./routes/Favoris_routes.js";
 
 import { db_conn } from "./config/database.js";
@@ -36,7 +36,7 @@ app.use("/api/product", Products_routes);
 app.use("/api/comd", Commande_routes);
 app.use("/api/cat",Categorie_routes);
 app.use("/api/serv",Service_routes);
-app.use("/api/ligne",Ligne_pc_routes);
+app.use("/api/pan",Panier_routes);
 app.use("/api/favoris",Favouris_routes);
 
 
