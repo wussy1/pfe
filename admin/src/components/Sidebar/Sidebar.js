@@ -17,6 +17,7 @@
 */
 import React, { Component } from "react";
 import { useLocation, NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Nav } from "react-bootstrap";
 
@@ -49,7 +50,7 @@ function Sidebar({ color, image, routes }) {
             </div>
           </a>
           <a className="simple-text" href="http://www.creative-tim.com">
-            Creative Tim
+            Hyundai
           </a>
         </div>
         <Nav>
@@ -70,6 +71,7 @@ function Sidebar({ color, image, routes }) {
                     activeClassName="active"
                   >
                     <i className={prop.icon} />
+                    <FontAwesomeIcon size="2x" style={{margin:'10px 10px 0px 0px',}} icon={prop.icon} />
                     <p>{prop.name}</p>
                   </NavLink>
                 </li>

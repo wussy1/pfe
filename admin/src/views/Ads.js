@@ -16,7 +16,7 @@ import {
   Col,
 } from "react-bootstrap";
 
-function Products() {
+function Ads() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -25,7 +25,7 @@ function Products() {
   const [quantity, setQuantity] = useState(1);
   const [show, setShow] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [prodedit,setProdEdit]=useState(null);
+  const [prodedit, setProdEdit] = useState(null);
   const [editable, setEditable] = useState(false);
   const [selectedCat, setSelectedCat] = useState(null);
   const handleClose = () => {
@@ -39,33 +39,26 @@ function Products() {
 
   function editProd() {
     axios
-      .put("http://localhost:5000/api/product/update/" + prodedit, {
-        prod_name: name,
-        prix: price,
-        description: description,
-        quantity: quantity,
-        discount: discount,
-        prod_image: image,
-        id_cat: selectedCat,
+      .put("http://localhost:5000/api/ads/update/" + prodedit, {
+        img: image,
+        product: selectedCat,
       })
-      .then(() => {getProds();handleClose()});
+      .then(() => {
+        getProds();
+        handleClose();
+      });
   }
   function deleteprod(id) {
     axios
-      .delete("http://localhost:5000/api/product/delete/" + id)
+      .delete("http://localhost:5000/api/ads/delete/"+id)
       .then(() => getProds());
   }
 
   function addProd() {
     axios
-      .post("http://localhost:5000/api/product/register", {
-        prod_name: name,
-        prix: price,
-        description: description,
-        quantity: quantity,
-        discount: discount,
-        prod_image: image,
-        id_cat: selectedCat,
+      .post("http://localhost:5000/api/ads/add", {
+        img: image,
+        product: selectedCat,
       })
       .then(() => {
         getProds();
@@ -82,13 +75,14 @@ function Products() {
   }
   function getProds() {
     axios
-      .get("http://localhost:5000/api/product/")
+      .get("http://localhost:5000/api/ads/")
       .then((result) => setProds(result.data));
   }
   function getCategoriest() {
-    axios
-      .get("http://localhost:5000/api/cat/")
-      .then((result) => {setCategories(result.data);setSelectedCat(result.data[0].id_cat)});
+    axios.get("http://localhost:5000/api/product").then((result) => {
+      setCategories(result.data);
+      setSelectedCat(result.data[0].id_prod);
+    });
   }
 
   const [prods, setProds] = useState([]);
@@ -102,76 +96,27 @@ function Products() {
       <>
         <Modal size="lg" show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{editable ? "Edit" : "Add"} Product</Modal.Title>
+            <Modal.Title>{editable ? "Edit" : "Add"} Ad</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
               <Row>
-                <Col className="pl-1" md="6">
+                <Col md="12">
                   <Form.Group>
-                    <label>Name</label>
+                    <label>Image</label>
                     <Form.Control
-                      onChange={(e) => setName(e.target.value)}
-                      value={name}
-                      placeholder="Product name"
-                      type="text"
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col className="pl-1" md="6">
-                  <Form.Group>
-                    <label>Description</label>
-                    <Form.Control
-                                          value={description}
-
-                      onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Product description"
-                      type="text"
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className="pr-1" md="6">
-                  <Form.Group>
-                    <label>Price</label>
-                    <Form.Control
-                    value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      placeholder="100"
-                      type="text"
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col className="pl-1" md="6">
-                  <Form.Group>
-                    <label>Discount</label>
-                    <Form.Control
-                    value={discount}
-                      onChange={(e) => setDiscount(e.target.value)}
-                      defaultValue="0"
-                      placeholder="Discount in numbers"
+                      value={image}
+                      onChange={(e) => setImage(e.target.value)}
+                      placeholder="Image here"
                       type="text"
                     ></Form.Control>
                   </Form.Group>
                 </Col>
               </Row>
               <Row>
-                <Col className="pl-1" md="6">
+                <Col md="12">
                   <Form.Group>
-                    <label>Quantity</label>
-                    <Form.Control
-                    value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
-                      placeholder="Product description"
-                      type="text"
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col className="pl-1" md="6">
-                  <Form.Group>
-                    <label>Category</label>
+                    <label>Products</label>
                     <Form.Control
                       as="select"
                       value={selectedCat}
@@ -180,22 +125,9 @@ function Products() {
                       }}
                     >
                       {categories.map((el) => (
-                        <option value={el.id_cat}>{el.name_cat}</option>
+                        <option value={el.id_prod}>{el.prod_name}</option>
                       ))}
                     </Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col md="12">
-                  <Form.Group>
-                    <label>Image</label>
-                    <Form.Control
-                    value={image}
-                    onChange={(e)=>setImage(e.target.value)}
-                      placeholder="Image here"
-                      type="text"
-                    ></Form.Control>
                   </Form.Group>
                 </Col>
               </Row>
@@ -227,7 +159,7 @@ function Products() {
                   justifyContent: "space-between",
                 }}
               >
-                <p style={{ fontSize: 21, margin: 10 }}>Products Table</p>
+                <p style={{ fontSize: 21, margin: 10 }}>Ads Table</p>
                 <Button
                   variant="primary"
                   onClick={() => {
@@ -235,7 +167,7 @@ function Products() {
                     handleShow();
                   }}
                 >
-                  Add Product
+                  Add Ad
                 </Button>
               </div>
             </Card.Header>
@@ -244,12 +176,8 @@ function Products() {
                 <thead>
                   <tr>
                     <th className="border-0">ID</th>
-                    <th className="border-0">Name</th>
-                    <th className="border-0">Description</th>
-                    <th className="border-0">Price</th>
-                    <th className="border-0">Discount</th>
-                    <th className="border-0">Quantity</th>
                     <th className="border-0">Image</th>
+                    <th className="border-0">Product</th>
                     <th className="border-0">Edit</th>
                     <th className="border-0">Delete</th>
                   </tr>
@@ -257,34 +185,29 @@ function Products() {
                 <tbody>
                   {prods.map((el) => (
                     <tr>
-                      <td>{el.id_prod}</td>
-                      <td>{el.prod_name}</td>
-                      <td>{el.description}</td>
-                      <td>{el.prix}</td>
-                      <td>{el.discount ? `${el.discount} %` : "0%"}</td>
-                      <td>{el.quantity}</td>
-
+                      <td>{el.id}</td>
                       <td>
                         <img
-                          style={{ width: 80, height: 80 }}
+                          style={{ width: 200, height: 150 }}
+                          src={el.img}
+                        />
+                      </td>
+                      <td style={{ display: "flex", flexDirection: "column" }}>
+                        {el.prod_name}
+                        <img
+                          style={{ width: 135, height: 135 }}
                           src={el.prod_image}
                         />
                       </td>
                       <td>
-                        {" "}
                         <img
                           onClick={() => {
-                            setProdEdit(el.id_prod);
+                            setProdEdit(el.id);
+                            console.log(el.id)
                             handleShow();
                             setEditable(true);
-                            setName(el.prod_name);
-                            setDescription(el.description);
-                            setSelectedCat(el.id_cat)
-                            setPrice(el.prix);
-                            setImage(el.prod_image);
-                            setQuantity(el.quantity);
-                            setDiscount(el.discount);
-
+                            setSelectedCat(el.id_prod);
+                            setImage(el.img);
                           }}
                           style={{ height: 25, width: 25 }}
                           className="hovericon"
@@ -295,7 +218,7 @@ function Products() {
                       <td>
                         {" "}
                         <img
-                          onClick={() => deleteprod(el.id_prod)}
+                          onClick={() => deleteprod(el.id)}
                           className="hovericon"
                           style={{ height: 25, width: 25 }}
                           alt="..."
@@ -314,4 +237,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default Ads;

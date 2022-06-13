@@ -408,7 +408,7 @@ function Icons() {
                   </Col>
                   <Col className="font-icon-list" lg="2" md="3" sm="4" xs="6">
                     <div className="font-icon-detail">
-                      <i className="nc-icon nc-palette"></i>
+                      
                       <p>nc-palette</p>
                     </div>
                   </Col>
@@ -426,7 +426,6 @@ function Icons() {
                   </Col>
                   <Col className="font-icon-list" lg="2" md="3" sm="4" xs="6">
                     <div className="font-icon-detail">
-                      <i className="nc-icon nc-planet"></i>
                       <p>nc-planet</p>
                     </div>
                   </Col>

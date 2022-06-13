@@ -26,63 +26,65 @@ import Upgrade from "views/Upgrade.js";
 import Products from "views/Products";
 import Categories from "views/Categories";
 import ProductsOrders from "views/ProductsOrders";
+import Ads from "views/Ads";
+import { faChartBar,faUsers,faScrewdriverWrench,faTags,faListAlt,faBagShopping,faHandshake,faAd, faA } from '@fortawesome/free-solid-svg-icons'
 
 const dashboardRoutes = [
   
   {
     path: "/dashboard",
     name: "Dashboard",
-    icon: "nc-icon nc-chart-pie-35",
+    icon: faChartBar,
     component: Dashboard,
     layout: "/admin",
   },
   {
     path: "/users",
     name: "Users",
-    icon: "nc-icon nc-circle-09",
+    icon: faUsers,
     component: UserProfile,
     layout: "/admin",
   },
   {
     path: "/services",
     name: "services",
-    icon: "nc-icon nc-notes",
-    component: TableList,
+    icon: faScrewdriverWrench,
+    component: UserProfile,
     layout: "/admin",
   },
   {
     path: "/products",
     name: "Products",
-    icon: "nc-icon nc-notes",
+    icon: faTags,
     component: Products,
     layout: "/admin",
   },
   {
     path: "/categories",
     name: "Categories",
-    icon: "nc-icon nc-notes",
+    icon: faListAlt,
     component: Categories,
     layout: "/admin",
   },
   {
     path: "/OrdProducts",
     name: "Products Orders",
-    icon: "nc-icon nc-notes",
+    icon: faBagShopping,
     component: ProductsOrders,
     layout: "/admin",
   },
   {
     path: "/OrdServices",
     name: "Services Orders",
-    icon: "nc-icon nc-notes",
+    icon: faHandshake,
     component: TableList,
     layout: "/admin",
   },
   {
     path: "/ads",
     name: "ads",
-    icon: "nc-icon nc-notes",
-    component: TableList,
+    icon: faAd,
+    component: Ads,
     layout: "/admin",
   },
   
