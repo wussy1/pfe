@@ -8,7 +8,7 @@ const Favoris = () => {
   useEffect(() => {
     getUserData().then((res) => {
       axios
-        .get(`http://192.168.1.22:5000/api/favoris/get/${JSON.parse(res).id}`)
+        .get(`http://192.168.1.107:5000/api/favoris/get/${JSON.parse(res).id}`)
         .then((result) => {
           setFavorisList(result.data);
           console.log(result.data);

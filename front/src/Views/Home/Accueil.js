@@ -36,7 +36,7 @@ const Accueil = ({ navigation }) => {
 
   function getSearched(search) {
     axios
-      .get(`http://192.168.1.22:5000/api/product/prod/${search}`)
+      .get(`http://192.168.1.107:5000/api/product/prod/${search}`)
       .then((result) => {
         setSearchProds(result.data);
       });
@@ -46,7 +46,7 @@ const Accueil = ({ navigation }) => {
     getUserData().then((res) => {
       setUser(JSON.parse(res));
     });
-    axios.get("http://192.168.1.22:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.107:5000/api/product/").then((res) => {
       console.log("********************************");
       StatusBar.setBackgroundColor("#333333");
       console.log(res.data);
