@@ -63,11 +63,11 @@ export const removeAd = async (req, res) => {
 
 export const updateAd = async (req, res) => {
     const { id } = req.params;
-    const {image,product} = req.body;
+    const {img,product} = req.body;
 
   
   const newAd = {
-      image,
+      img,
       product
   }
     await con

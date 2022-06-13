@@ -39,14 +39,9 @@ function Ads() {
 
   function editProd() {
     axios
-      .put("http://localhost:5000/api/product/update/" + prodedit, {
-        prod_name: name,
-        prix: price,
-        description: description,
-        quantity: quantity,
-        discount: discount,
-        prod_image: image,
-        id_cat: selectedCat,
+      .put("http://localhost:5000/api/ads/update/" + prodedit, {
+        img: image,
+        product: selectedCat,
       })
       .then(() => {
         getProds();
@@ -55,7 +50,7 @@ function Ads() {
   }
   function deleteprod(id) {
     axios
-      .delete("http://localhost:5000/api/product/delete/" + id)
+      .delete("http://localhost:5000/api/ads/delete/"+id)
       .then(() => getProds());
   }
 
@@ -84,9 +79,9 @@ function Ads() {
       .then((result) => setProds(result.data));
   }
   function getCategoriest() {
-    axios.get("http://localhost:5000/api/cat/").then((result) => {
+    axios.get("http://localhost:5000/api/product").then((result) => {
       setCategories(result.data);
-      setSelectedCat(result.data[0].id_cat);
+      setSelectedCat(result.data[0].id_prod);
     });
   }
 
@@ -121,7 +116,7 @@ function Ads() {
               <Row>
                 <Col md="12">
                   <Form.Group>
-                    <label>Category</label>
+                    <label>Products</label>
                     <Form.Control
                       as="select"
                       value={selectedCat}
@@ -130,7 +125,7 @@ function Ads() {
                       }}
                     >
                       {categories.map((el) => (
-                        <option value={el.id_cat}>{el.name_cat}</option>
+                        <option value={el.id_prod}>{el.prod_name}</option>
                       ))}
                     </Form.Control>
                   </Form.Group>
@@ -194,7 +189,7 @@ function Ads() {
                       <td>
                         <img
                           style={{ width: 200, height: 150 }}
-                          src={el.image}
+                          src={el.img}
                         />
                       </td>
                       <td style={{ display: "flex", flexDirection: "column" }}>
@@ -207,16 +202,12 @@ function Ads() {
                       <td>
                         <img
                           onClick={() => {
-                            setProdEdit(el.id_prod);
+                            setProdEdit(el.id);
+                            console.log(el.id)
                             handleShow();
                             setEditable(true);
-                            setName(el.prod_name);
-                            setDescription(el.description);
-                            setSelectedCat(el.id_cat);
-                            setPrice(el.prix);
-                            setImage(el.prod_image);
-                            setQuantity(el.quantity);
-                            setDiscount(el.discount);
+                            setSelectedCat(el.id_prod);
+                            setImage(el.img);
                           }}
                           style={{ height: 25, width: 25 }}
                           className="hovericon"
@@ -227,7 +218,7 @@ function Ads() {
                       <td>
                         {" "}
                         <img
-                          onClick={() => deleteprod(el.id_prod)}
+                          onClick={() => deleteprod(el.id)}
                           className="hovericon"
                           style={{ height: 25, width: 25 }}
                           alt="..."
