@@ -28,6 +28,8 @@ import Categories from "views/Categories";
 import ProductsOrders from "views/ProductsOrders";
 import Ads from "views/Ads";
 import { faChartBar,faUsers,faScrewdriverWrench,faTags,faListAlt,faBagShopping,faHandshake,faAd, faA } from '@fortawesome/free-solid-svg-icons'
+import Services from "views/Services";
+import ServiceOrders from "views/ServiceOrders";
 
 const dashboardRoutes = [
   
@@ -49,7 +51,7 @@ const dashboardRoutes = [
     path: "/services",
     name: "services",
     icon: faScrewdriverWrench,
-    component: UserProfile,
+    component: Services,
     layout: "/admin",
   },
   {
@@ -77,7 +79,7 @@ const dashboardRoutes = [
     path: "/OrdServices",
     name: "Services Orders",
     icon: faHandshake,
-    component: TableList,
+    component: ServiceOrders,
     layout: "/admin",
   },
   {

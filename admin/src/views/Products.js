@@ -75,7 +75,7 @@ function Products() {
   function clearstate() {
     setName("");
     setDescription("");
-    setDiscount("");
+    setDiscount(0);
     setImage("");
     setPrice("");
     setQuantity("");
@@ -150,7 +150,6 @@ function Products() {
                     <Form.Control
                     value={discount}
                       onChange={(e) => setDiscount(e.target.value)}
-                      defaultValue="0"
                       placeholder="Discount in numbers"
                       type="text"
                     ></Form.Control>
