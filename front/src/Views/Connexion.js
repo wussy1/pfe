@@ -28,7 +28,7 @@ const Connexion = ({navigation}) => {
             index: 0,
             routes: [{ name: "Accueil" }],
           })} >
-      <Text style={styles.tex}>IGNORER</Text>
+      <Text style={styles.tex}>Continuer sans compte</Text>
       </TouchableOpacity>
     </View>
   )

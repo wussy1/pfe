@@ -203,7 +203,6 @@ function Ads() {
                         <img
                           onClick={() => {
                             setProdEdit(el.id);
-                            console.log(el.id)
                             handleShow();
                             setEditable(true);
                             setSelectedCat(el.id_prod);

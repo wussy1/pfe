@@ -188,8 +188,6 @@ export const getusercommandes = async (req, res) => {
 
 export const acceptannulecommande = async (req,res)=>{
   const {id,status}=req.params
-  console.log("el status")
-  console.log(status);
 status==1?( await con.raw(`UPDATE commande
 SET etat_comd = "accepté"
 WHERE id_comd=${id}`).then(()=>  res.status(200).json({

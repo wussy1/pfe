@@ -122,7 +122,7 @@ const Panier = ({ navigation }) => {
                       <TouchableOpacity
                         onPress={() => {
                           if (product.quantity === 1) {
-                            return Alert.alert(`Remove ${product.name}?`, "", [
+                            return Alert.alert(`Remove ${product.prod_name}?`, "", [
                               { text: "Cancel" },
                               {
                                 text: "Remove",

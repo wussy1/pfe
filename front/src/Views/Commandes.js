@@ -17,7 +17,6 @@ const Commandes = () => {
   useFocusEffect(
     React.useCallback(() => {
         getCommandes();
-console.log("im here")
     }, [])
   );
   

@@ -1,13 +1,25 @@
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, StyleSheet,Image, TouchableOpacity, StatusBar, ImageBackground } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getUserData } from "../../Utils/AsyncStorageFunctions";
 import { Surface } from "react-native-paper";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-const Service = () => {
+import Accueil from "./Accueil";
+import { ScrollView } from "react-native-gesture-handler";
+import axios from "axios";
+const Service = ({ navigation }) => {
   const [user, setUser] = useState("");
+  const [service, setService] = useState([]);
+
+  const IconSize = 20;
 
   useEffect(async () => {
     setUser(JSON.parse(await getUserData()));
+    axios.get("http://192.168.1.107:5000/api/serv/").then((res) => {
+      setService(res.data);
+
+
+    });
   }, []);
   if (user === "") {
     return (
@@ -16,6 +28,37 @@ const Service = () => {
       </View>
     );
   }
+  function Serv({ serv }) {
+    return (
+      
+        <View style={{ flexDirection: "row" ,alignItems:"center", backgroundColor: "#fff",width:"90%",height:200,
+          marginTop: 10,
+          borderWidth: 1,
+          borderColor: "#999",
+          marginHorizontal: 10,
+          overflow:"hidden",
+          borderRadius:20
+
+          }}>
+          {/* serv Image View */}
+            <ImageBackground style={styles.image} source={{ uri:serv.icon }}>
+                <Text style={styles.texte}>
+                  <FontAwesome
+                    prod_name="wrench"
+                    size={IconSize}
+                    color={"white"}
+                  />{" "}
+                 {serv.name}{" "}
+                </Text>
+              </ImageBackground>
+     </View>
+    );
+  }
+
+
+
+
+
   return (
     <Surface style={styles.container}>
       <View
@@ -34,43 +77,36 @@ const Service = () => {
         </Text>
         <Text style={{ color: "white" }}>+{user.number}</Text>
       </View>
-      <View
+      <ScrollView contentContainerStyle={{  justifyContent:'flex-start',
+    alignItems:'center',}}
         style={{
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
           paddingTop: 8,
           paddingHorizontal: 10,
-          height: "100%",
           width: "100%",
           backgroundColor: "#f5f5f5",
-          marginTop: "-1%",
-          justifyContent: "flex-start",
-          alignItems: "center",
           flexDirection: "column",
         }}
       >
-        <Text
-          style={{
-            padding: 4,
-            fontWeight: "100",
-            marginRight: "49%",
-            fontSize: 15,
-            color: "#333333",
-          }}
-        >
-          MON COMPTE HYNDAI
-        </Text>
-      <TouchableOpacity
-        style={{
-          height: "10%",
-          width: "60%",
-          marginTop: "10%",
-          marginBottom: "0%",
-        }}
-      >
-        <Text style={styles.text}>Prendre rendez-vous</Text>
-      </TouchableOpacity>
-    </View></Surface>
+         <>
+            {/* servs List */}
+          
+                {service.map((serv) => (
+                  <TouchableOpacity
+                    key={serv.id}
+                    onPress={() => navigation.navigate("Form_serv",serv)}
+                  >
+                    <Serv serv={serv} />
+                  </TouchableOpacity>
+                ))}
+              
+            <View style={{ height: 20 }}></View>
+          </>
+     
+    </ScrollView>
+    
+    </Surface>
   );
 };
 const styles = StyleSheet.create({
@@ -90,8 +126,22 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#282828",
 
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+  
+  },  image: {
+    resizeMode: "stretch",
+    height: "100%",
+    flexDirection: "row",
+    alignContent: "stretch",
+    alignItems: "flex-end",
+  },
+  texte: {
+    width: "100%",
+    color: "white",
+    fontSize: 18,
+    lineHeight: 60,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000a0",
   },
 });
 export default Service;

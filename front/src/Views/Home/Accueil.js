@@ -14,6 +14,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
@@ -153,17 +154,6 @@ const Accueil = ({ navigation }) => {
             </View>
           </View>
         </View>
-        {/* Offer View */}
-        {/*<View
-          style={{
-            paddingHorizontal: 8,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <RNEIcon prod_name="tag" type="font-awesome" size={16} />
-          <Text style={{ marginLeft: 10, fontSize: 16 }}>{product.offer}</Text>
-        </View>*/}
         {/* description Wrap */}
         <View
           style={{
@@ -364,7 +354,7 @@ const Accueil = ({ navigation }) => {
               <ImageBackground style={styles.image} source={h}>
                 <Text style={styles.text}>
                   <FontAwesome
-                    prod_name="wrench"
+                    name="wrench"
                     size={IconSize}
                     color={"white"}
                   />{" "}
@@ -372,6 +362,40 @@ const Accueil = ({ navigation }) => {
                 </Text>
               </ImageBackground>
             </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#003984",
+              height: 50,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                color: "white",
+                fontWeight: "bold",
+                padding: 10,
+              }}>
+              <Ionicons
+                    name="flash"
+                    size={IconSize}
+                    color={"white"}
+            />
+             {""} Vente Flash
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: "white",
+                fontWeight: "bold",
+                padding: 10,
+              }}
+              onPress={() => navigation.navigate("Promition")}
+            >
+              VOIR TOUT
+            </Text>
           </View>
 
           <>

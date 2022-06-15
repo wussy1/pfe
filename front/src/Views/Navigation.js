@@ -12,6 +12,7 @@ import Commandes from './Commandes';
 import ProductsByCategorie from './ProductsByCategorie';
 import Products from './Home/Products';
 import Favoris from './Favoris';
+import Promition from './Promition';
 const fullScreenWidth = Dimensions.get('window').width;
 const Stack = createNativeStackNavigator()
 function AccueilStackScreen(){
@@ -19,7 +20,7 @@ function AccueilStackScreen(){
         <Stack.Navigator>
             <Stack.Screen name='Accueil' options={{headerShown: false}}  component={Accueil}></Stack.Screen>
             <Stack.Screen name="Products" options={{headerShown: false}} component={Products} /> 
-
+            <Stack.Screen name="Promition"  component={Promition} /> 
         </Stack.Navigator>
     );
 }

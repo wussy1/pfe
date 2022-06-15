@@ -42,11 +42,9 @@ const Products = ({ route, navigation }) => {
     { id: 1, label: "red" },
   ]);
 
-  const [selectedSize, setSelectedSize] = useState("M");
+  const [selectedColor, setselectedColor] = useState("white");
 
-  const [productDescription] = useState(
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut ornare urna. Duis egestas ligula quam, ut tincidunt ipsum blandit at. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vitae justo congue, tempor urna vitae, placerat elit. Nulla nec consectetur dolor, in convallis erat. Fusce hendrerit id sem tristique congue. \n\nVestibulum mauris sapien, vulputate in lacus in, lacinia efficitur magna. Sed id massa ut magna eleifend lacinia et id tellus. Sed dignissim mollis lacus. Etiam laoreet ex eu sem euismod congue. In maximus porttitor imperdiet. Nulla eu dolor vehicula ligula mollis tristique ut in enim. Phasellus quis tempor velit. Vivamus sit amet orci ornare, pulvinar purus et, commodo magna. Nunc eu tortor vitae leo varius vehicula quis volutpat dolor.\n\nDonec interdum rutrum tellus, et rhoncus risus dignissim at. Aliquam sed imperdiet tortor, non aliquam sapien. Cras quis enim a elit fringilla vehicula. Aenean pulvinar ipsum a magna feugiat, a fermentum ante pellentesque. Mauris tincidunt placerat placerat. Quisque tincidunt enim sed metus fermentum maximus. Fusce eu tempus est.`
-  );
+  
 
   const [seeFullDescription, setSeeFullDescription] = useState(false);
 
@@ -171,13 +169,13 @@ const Products = ({ route, navigation }) => {
               {color.map((s) => (
                 <TouchableOpacity
                   style={
-                    selectedSize === s.label ? styles.tagSelected : styles.tag
+                    selectedColor === s.label ? styles.tagSelected : styles.tag
                   }
-                  onPress={() => setSelectedSize(s.label)}
+                  onPress={() => setselectedColor(s.label)}
                 >
                   <Text
                     style={
-                      selectedSize === s.label
+                      selectedColor === s.label
                         ? styles.tagLabelSelected
                         : styles.tagLabel
                     }
@@ -220,8 +218,8 @@ const Products = ({ route, navigation }) => {
           <View style={{ padding: 10 }}>
             <Text>
               {seeFullDescription
-                ? `${productDescription}`
-                : `${productDescription.split("\n")[0]}`}
+                ? `${prod.description}`
+                : `${prod.description.split("\n")[0]}`}
             </Text>
           </View>
         </View>

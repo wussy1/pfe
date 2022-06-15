@@ -238,7 +238,7 @@ const Sign_up = ({ navigation }) => {
             marginBottom: "-5%",
           }}
         >
-          <Text style={styles.tex}>IGNORER</Text>
+          <Text style={styles.tex}>Continuer sans compte</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

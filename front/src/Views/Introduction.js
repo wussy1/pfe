@@ -15,7 +15,7 @@ const Introduction = ({navigation}) => {
             index: 0,
             routes: [{ name: "Accueil" }],
           })} >
-      <Text style={styles.texte}>IGNORER</Text>
+      <Text style={styles.texte}>Continuer sans compte</Text>
       </TouchableOpacity>
     </View>
   );

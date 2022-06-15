@@ -45,6 +45,18 @@ export const getProd = async (req, res) => {
     })
     .catch((err) => res.status(400).json("Error: " + err));
 };
+export const getProd_disc = async (req, res) => {
+  
+  
+  await con
+    .select("*")
+    .from("products")
+    .where('discount','>',0)
+    .then((products) => {
+      res.json(products);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
 /* to get only one product by cat */
 export const getProductByCat = async (req, res) => {
   const { id_cat } = req.params;
