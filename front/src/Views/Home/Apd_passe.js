@@ -29,7 +29,7 @@ const Apd_passe = ({ navigation }) => {
     console.log("it's here 0");
 
     axios
-      .put("http://192.168.1.107:5000/api/user/updatepassword/"+ user.id, {
+      .put("http://192.168.1.31:5000/api/user/updatepassword/"+ user.id, {
         password: newpassme,
       })
       .then(async (res) => {

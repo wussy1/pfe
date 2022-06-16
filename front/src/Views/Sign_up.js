@@ -21,11 +21,10 @@ const Sign_up = ({ navigation }) => {
   const phoneInput = useRef(null);
   const [isEmailvalid, setIsEmailvalide] = useState(true);
   const [isNameValid, setIsNameValid] = useState(true);
-  const [isDirty, setIsDirty] = useState(false);
 
-   function checkInputs() {
-    const emailvalid= verifyemail();
-    const namevalid= verifyName();
+  function checkInputs() {
+    const emailvalid = verifyemail();
+    const namevalid = verifyName();
     if (emailvalid && namevalid) {
       return true;
     } else {
@@ -51,36 +50,32 @@ const Sign_up = ({ navigation }) => {
       return false;
     }
   }
-   function signup() {
-     
-    if ( checkInputs()) {
-     
-     axios
-       .post("http://192.168.1.107:5000/api/user/register", {
-         name: name,
-         email: email,
-         password: password,
-         number: phoneNumber,
-       })
-       .then(async (res) => {
-         if (res.data.exist === false) {
-           console.log("mrigel signup");
-            
-         } else if (res.data.exist === true) {
-           alert("email already exist");
-         }
-         else{
-           console.log("something went wrong")
-         }
-         storeUserData(res.data.exist).then(()=> navigation.reset({
-             index: 0,
-             routes: [{ name: "Login" }],
-           }));
-       }).catch((err)=>console.log("error ="+err));
-   }
-   else{
-     alert("verify inputs balise")
-   }
+  function signup() {
+    if (checkInputs()) {
+      axios
+        .post("http://192.168.1.31:5000/api/user/register", {
+          name: name,
+          email: email,
+          password: password,
+          number: phoneNumber,
+        })
+        .then(async (res) => {
+          if (res.data.exist === false) {
+            console.log("mrigel signup");
+            navigation.navigate({
+              name: "VerifyCode",
+              params: { email, reason: "account verification" },
+            });
+          } else if (res.data.exist === true) {
+            alert("email already exist");
+          } else {
+            console.log("something went wrong");
+          }
+        })
+        .catch((err) => console.log("error =" + err));
+    } else {
+      alert("verify inputs balise");
+    }
   }
 
   const getPhoneNumber = () => {
@@ -136,12 +131,12 @@ const Sign_up = ({ navigation }) => {
         >
           E-mail
         </Text>
-        
+
         <TextInput
           onChangeText={(text) => setEmail(text)}
           style={{
             width: "75%",
-            borderColor: isEmailvalid?"#003984":"#ff0000",
+            borderColor: isEmailvalid ? "#003984" : "#ff0000",
             borderWidth: 2,
             padding: 5,
             borderRadius: 5,

@@ -11,7 +11,6 @@ import Ads_routes from "./routes/Ads_routes.js";
 import { db_conn } from "./config/database.js";
 
 
-
 const PORT = 5000;
 
 const app = express();
