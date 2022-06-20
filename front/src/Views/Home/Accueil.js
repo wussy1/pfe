@@ -37,7 +37,7 @@ const Accueil = ({ navigation }) => {
 
   function getSearched(search) {
     axios
-      .get(`http://192.168.1.107:5000/api/product/prod/${search}`)
+      .get(`http://10.1.1.217:5000/api/product/prod/${search}`)
       .then((result) => {
         setSearchProds(result.data);
       });
@@ -47,7 +47,7 @@ const Accueil = ({ navigation }) => {
     getUserData().then((res) => {
       setUser(JSON.parse(res));
     });
-    axios.get("http://192.168.1.107:5000/api/product/").then((res) => {
+    axios.get("http://10.1.1.217:5000/api/product/").then((res) => {
       console.log("********************************");
       StatusBar.setBackgroundColor("#333333");
       console.log(res.data);
@@ -177,7 +177,7 @@ const Accueil = ({ navigation }) => {
               paddingHorizontal: 6,
               paddingVertical: 4,
               borderRadius: 4,
-            }}
+            }}numberOfLines={2}
           >
             {product.description}
           </Text>
@@ -349,7 +349,11 @@ const Accueil = ({ navigation }) => {
             </Text>
             <TouchableOpacity
               style={{ borderWidth: 1, height: "80%", width: "100%" }}
-              onPress={() => navigation.navigate("Service")}
+              onPress={() => {
+                user == null
+                  ? navigation.navigate("Login")
+                  : navigation.navigate("Service");
+              }}
             >
               <ImageBackground style={styles.image} source={h}>
                 <Text style={styles.text}>

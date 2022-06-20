@@ -12,7 +12,7 @@ const Login = ({navigation}) => {
   function signin() {
     console.log("executing")
     axios
-      .post("http://192.168.1.107:5000/api/user/login", {
+      .post("http://10.1.1.217:5000/api/user/login", {
         email: email,
         password: password,
         

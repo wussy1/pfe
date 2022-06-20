@@ -25,7 +25,7 @@ const Panier = ({ navigation }) => {
     await getUserData().then((res) =>
     axios
       .post(
-        `http://192.168.1.107:5000/api/comd/add`
+        `http://10.1.1.217:5000/api/comd/add`
       ,{
         "products": cart,
         "user_id": JSON.parse(res).id,
@@ -44,7 +44,7 @@ const Panier = ({ navigation }) => {
     await getUserData().then((res) =>
       axios
         .get(
-          `http://192.168.1.107:5000/api/pan/by-user-id/${JSON.parse(res).id}`
+          `http://10.1.1.217:5000/api/pan/by-user-id/${JSON.parse(res).id}`
         )
         .then((rslt) => {setCart(rslt.data);console.log(rslt.data)})
     );
@@ -52,7 +52,7 @@ const Panier = ({ navigation }) => {
 
   async function PlusItem(idpanier, idproduit) {
     await axios
-      .post("http://192.168.1.107:5000/api/pan/plus", {
+      .post("http://10.1.1.217:5000/api/pan/plus", {
         id_panier: idpanier,
         id_prod: idproduit,
       })
@@ -61,7 +61,7 @@ const Panier = ({ navigation }) => {
   async function MinusItem(idpanier, idproduit) {
   
     await axios
-      .post("http://192.168.1.107:5000/api/pan/minus", {
+      .post("http://10.1.1.217:5000/api/pan/minus", {
         id_panier: idpanier,
         id_prod: idproduit,
       })

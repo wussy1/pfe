@@ -15,7 +15,7 @@ const Service = ({ navigation }) => {
 
   useEffect(async () => {
     setUser(JSON.parse(await getUserData()));
-    axios.get("http://192.168.1.107:5000/api/serv/").then((res) => {
+    axios.get("http://10.1.1.217:5000/api/serv/").then((res) => {
       setService(res.data);
 
 
