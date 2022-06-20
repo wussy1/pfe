@@ -357,11 +357,7 @@ const Accueil = ({ navigation }) => {
             >
               <ImageBackground style={styles.image} source={h}>
                 <Text style={styles.text}>
-                  <FontAwesome
-                    name="wrench"
-                    size={IconSize}
-                    color={"white"}
-                  />{" "}
+                  <FontAwesome name="wrench" size={IconSize} color={"white"} />{" "}
                   Prendre rendez-vous{" "}
                 </Text>
               </ImageBackground>
@@ -381,13 +377,10 @@ const Accueil = ({ navigation }) => {
                 color: "white",
                 fontWeight: "bold",
                 padding: 10,
-              }}>
-              <Ionicons
-                    name="flash"
-                    size={IconSize}
-                    color={"white"}
-            />
-             {""} Vente Flash
+              }}
+            >
+              <Ionicons name="flash" size={IconSize} color={"white"} />
+              {""} Vente Flash
             </Text>
             <Text
               style={{
@@ -401,21 +394,61 @@ const Accueil = ({ navigation }) => {
               VOIR TOUT
             </Text>
           </View>
-
           <>
-            {/* Products List */}
-            {Array(1)
-              .fill(1)
-              .map((el) =>
-                products.map((product) => (
-                  <TouchableOpacity
-                    key={product.id}
-                    onPress={() => navigation.navigate("Products", product)}
-                  >
-                    <Product product={product} />
-                  </TouchableOpacity>
-                ))
-              )}
+            <ScrollView horizontal={true}>
+              {products.map((product) => (
+                <TouchableOpacity
+                  key={product.id}
+                  onPress={() => navigation.navigate("Products", product)}
+                >
+                  <Product product={product} />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <View style={{ height: 20 }}></View>
+          </>
+          <View
+            style={{
+              backgroundColor: "#003984",
+              height: 50,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                color: "white",
+                fontWeight: "bold",
+                padding: 10,
+              }}
+            >
+              <Ionicons name="flash" size={IconSize} color={"white"} />
+              {""} Plus de produits
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: "white",
+                fontWeight: "bold",
+                padding: 10,
+              }}
+              onPress={() => navigation.navigate("Promition")}
+            >
+              VOIR TOUT
+            </Text>
+          </View>
+          <>
+            <ScrollView horizontal={true}>
+              {products.map((product) => (
+                <TouchableOpacity
+                  key={product.id}
+                  onPress={() => navigation.navigate("Products", product)}
+                >
+                  <Product product={product} />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
             <View style={{ height: 20 }}></View>
           </>
         </ScrollView>

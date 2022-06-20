@@ -21,11 +21,10 @@ const Sign_up = ({ navigation }) => {
   const phoneInput = useRef(null);
   const [isEmailvalid, setIsEmailvalide] = useState(true);
   const [isNameValid, setIsNameValid] = useState(true);
-  const [isDirty, setIsDirty] = useState(false);
 
-   function checkInputs() {
-    const emailvalid= verifyemail();
-    const namevalid= verifyName();
+  function checkInputs() {
+    const emailvalid = verifyemail();
+    const namevalid = verifyName();
     if (emailvalid && namevalid) {
       return true;
     } else {
@@ -136,12 +135,12 @@ const Sign_up = ({ navigation }) => {
         >
           E-mail
         </Text>
-        
+
         <TextInput
           onChangeText={(text) => setEmail(text)}
           style={{
             width: "75%",
-            borderColor: isEmailvalid?"#003984":"#ff0000",
+            borderColor: isEmailvalid ? "#003984" : "#ff0000",
             borderWidth: 2,
             padding: 5,
             borderRadius: 5,

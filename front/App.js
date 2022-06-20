@@ -2,6 +2,7 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  StatusBar,
   TextInput,
   TouchableOpacity,
   View,
@@ -23,12 +24,16 @@ import Service from "./src/Views/Home/Service";
 import { getUserData } from "./src/Utils/AsyncStorageFunctions.js";
 import Products from "./src/Views/Home/Products";
 import Form_serv from "./src/Views/Home/Form_serv";
+import VerifyCode from "./src/Views/VerifyCode";
+import TypeEmail from "./src/Views/TypeEmail";
+import ResetPassword from "./src/Views/ResetPassword";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [user, setUser] = useState("");
 
   useEffect(async () => {
+    StatusBar.setBarStyle("default")
     setUser(await getUserData())
   }, []);
 
@@ -48,7 +53,9 @@ export default function App() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Connexion" component={Connexion} />
       <Stack.Screen name="Products" options={{headerShown: false}} component={Products} /> 
-
+      <Stack.Screen name="VerifyCode" options={{headerShown: false}} component={VerifyCode} /> 
+      <Stack.Screen name="ResetPassword" options={{headerShown: false}} component={ResetPassword} /> 
+      <Stack.Screen name="typeemail" options={{headerShown: false}} component={TypeEmail} /> 
       <Stack.Screen name="Accueil" options={{headerShown: false}} component={Accueil} />
       <Stack.Screen name="Sign_up" component={Sign_up} />
       <Stack.Screen name="Navigation" options={{headerShown: false}} component={Navigation} />
