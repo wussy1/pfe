@@ -163,7 +163,7 @@ function Products() {
                     <Form.Control
                     value={quantity}
                       onChange={(e) => setQuantity(e.target.value)}
-                      placeholder="Product description"
+                      placeholder="Product Quantity"
                       type="text"
                     ></Form.Control>
                   </Form.Group>

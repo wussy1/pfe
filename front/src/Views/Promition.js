@@ -9,7 +9,7 @@ const Promition = ({navigation}) => {
   useEffect(() => {
     getUserData().then((res) => {
       axios
-        .get(`http://10.1.1.217:5000/api/product/discount`)
+        .get(`http://192.168.103.80:5000/api/product/discount`)
         .then((result) => {
           setPromo(result.data);
           console.log(result.data);
@@ -39,7 +39,7 @@ const Promition = ({navigation}) => {
           <View style={{ flex: 3 }}>
             {/* -- Ratings View */}
             <View>
-              <Text style={{ margin: 10, fontSize: 16, fontWeight: "100" }}>
+              <Text style={{ margin: 10, fontSize: 16,  fontWeight: "bold"}}>
                 {product.prod_name}
               </Text>
             </View>

@@ -10,7 +10,7 @@ const Commandes = () => {
   async function getCommandes() {
     await getUserData().then((res) =>
       axios
-        .get(`http://10.1.1.217:5000/api/comd/all/${JSON.parse(res).id}`)
+        .get(`http://192.168.103.80:5000/api/comd/all/${JSON.parse(res).id}`)
         .then((result) => setCommandes(result.data))
     );
   }

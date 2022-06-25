@@ -37,7 +37,7 @@ const Accueil = ({ navigation }) => {
 
   function getSearched(search) {
     axios
-      .get(`http://10.1.1.217:5000/api/product/prod/${search}`)
+      .get(`http://192.168.103.80:5000/api/product/prod/${search}`)
       .then((result) => {
         setSearchProds(result.data);
       });
@@ -47,7 +47,7 @@ const Accueil = ({ navigation }) => {
     getUserData().then((res) => {
       setUser(JSON.parse(res));
     });
-    axios.get("http://10.1.1.217:5000/api/product/").then((res) => {
+    axios.get("http://192.168.103.80:5000/api/product/").then((res) => {
       console.log("********************************");
       StatusBar.setBackgroundColor("#333333");
       console.log(res.data);
@@ -122,7 +122,7 @@ const Accueil = ({ navigation }) => {
           <View style={{ flex: 3, marginLeft: 20 }}>
             {/* -- Ratings View */}
             <View>
-              <Text style={{ margin: 10, fontSize: 16, fontWeight: "100" }}>
+              <Text style={{ margin: 10, fontSize: 16, fontWeight: "bold" }}>
                 {product.prod_name}
               </Text>
             </View>
@@ -349,15 +349,15 @@ const Accueil = ({ navigation }) => {
             </Text>
             <TouchableOpacity
               style={{ borderWidth: 1, height: "80%", width: "100%" }}
-              onPress={() => {
-                user == null
-                  ? navigation.navigate("Login")
-                  : navigation.navigate("Service");
-              }}
+              onPress={() => navigation.navigate("Service")}
             >
               <ImageBackground style={styles.image} source={h}>
                 <Text style={styles.text}>
-                  <FontAwesome name="wrench" size={IconSize} color={"white"} />{" "}
+                  <FontAwesome
+                    name="wrench"
+                    size={IconSize}
+                    color={"white"}
+                  />{" "}
                   Prendre rendez-vous{" "}
                 </Text>
               </ImageBackground>
@@ -377,10 +377,13 @@ const Accueil = ({ navigation }) => {
                 color: "white",
                 fontWeight: "bold",
                 padding: 10,
-              }}
-            >
-              <Ionicons name="flash" size={IconSize} color={"white"} />
-              {""} Vente Flash
+              }}>
+              <Ionicons
+                    name="flash"
+                    size={IconSize}
+                    color={"white"}
+            />
+             {""} Vente Flash
             </Text>
             <Text
               style={{
@@ -394,61 +397,21 @@ const Accueil = ({ navigation }) => {
               VOIR TOUT
             </Text>
           </View>
+
           <>
-            <ScrollView horizontal={true}>
-              {products.map((product) => (
-                <TouchableOpacity
-                  key={product.id}
-                  onPress={() => navigation.navigate("Products", product)}
-                >
-                  <Product product={product} />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-            <View style={{ height: 20 }}></View>
-          </>
-          <View
-            style={{
-              backgroundColor: "#003984",
-              height: 50,
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                color: "white",
-                fontWeight: "bold",
-                padding: 10,
-              }}
-            >
-              <Ionicons name="flash" size={IconSize} color={"white"} />
-              {""} Plus de produits
-            </Text>
-            <Text
-              style={{
-                fontSize: 15,
-                color: "white",
-                fontWeight: "bold",
-                padding: 10,
-              }}
-              onPress={() => navigation.navigate("Promition")}
-            >
-              VOIR TOUT
-            </Text>
-          </View>
-          <>
-            <ScrollView horizontal={true}>
-              {products.map((product) => (
-                <TouchableOpacity
-                  key={product.id}
-                  onPress={() => navigation.navigate("Products", product)}
-                >
-                  <Product product={product} />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            {/* Products List */}
+            {Array(1)
+              .fill(1)
+              .map((el) =>
+                products.map((product) => (
+                  <TouchableOpacity
+                    key={product.id}
+                    onPress={() => navigation.navigate("Products", product)}
+                  >
+                    <Product product={product} />
+                  </TouchableOpacity>
+                ))
+              )}
             <View style={{ height: 20 }}></View>
           </>
         </ScrollView>

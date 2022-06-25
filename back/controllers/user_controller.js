@@ -116,7 +116,7 @@ export const verifyCode = async (req, res) => {
   try {
     con("users")
       .update({ active: 1, verificationCode: null })
-      .whereRaw(`verificat    ionCode = BINARY "${code}"`)
+      .whereRaw(`verificationCode = BINARY "${code}"`)
       .then((result) => {
         console.log(result)
         if (result == 1) {

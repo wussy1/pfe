@@ -45,7 +45,7 @@ const VerifyCode = ({ navigation, route }) => {
 
   function resendCode() {
     axios
-      .post("http://192.168.1.31:5000/api/user/forgetpassword", {
+      .post("http://192.168.103.80:5000/api/user/forgetpassword", {
         email: route.params.email,
       })
       .then(() => {
@@ -57,7 +57,7 @@ const VerifyCode = ({ navigation, route }) => {
 
   const Ok = async () => {
     await axios
-      .get("http://192.168.1.31:5000/api/user/verifycode/" + `${code}`)
+      .get("http://192.168.103.80:5000/api/user/verifycode/" + `${code}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.message == "success") {

@@ -1,14 +1,21 @@
-import { View, Text, Image,StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { getUserData } from "../Utils/AsyncStorageFunctions";
 import axios from "axios";
 
-const Favoris = ({navigation}) => {
+const Favoris = ({ navigation }) => {
   const [favorisList, setFavorisList] = useState([]);
   useEffect(() => {
     getUserData().then((res) => {
       axios
-        .get(`http://10.1.1.217:5000/api/favoris/get/${JSON.parse(res).id}`)
+        .get(`http://192.168.103.80:5000/api/favoris/get/${JSON.parse(res).id}`)
         .then((result) => {
           setFavorisList(result.data);
           console.log(result.data);
@@ -38,23 +45,27 @@ const Favoris = ({navigation}) => {
           <View style={{ flex: 3 }}>
             {/* -- Ratings View */}
             <View>
-              <Text style={{margin:10,fontSize:16,fontWeight:'100'}}>{product.prod_name}</Text>
+              <Text style={{ margin: 10, fontSize: 16, fontWeight: "bold" }}>
+                {product.prod_name}
+              </Text>
             </View>
             {/* -- prix View */}
             <View style={{ marginTop: 4 }}>
-              <Text style={{ fontSize: 16 ,marginLeft:10}}>
+              <Text style={{ fontSize: 16, marginLeft: 10 }}>
                 {product.discount == null
                   ? `${product.prix.toFixed(2)} TND `
-                  : `${(product.prix-(product.prix * (product.discount / 100))).toFixed(
-                      2
-                    )} TND`}
+                  : `${(
+                      product.prix -
+                      product.prix * (product.discount / 100)
+                    ).toFixed(2)} TND`}
               </Text>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <Text
                   style={{
                     color: "#57606f",
                     fontSize: 13,
-                    textDecorationLine: "line-through",marginLeft:10
+                    textDecorationLine: "line-through",
+                    marginLeft: 10,
                   }}
                 >
                   {product.discount !== null ? ` ${product.prix} TND ` : null}
@@ -100,7 +111,8 @@ const Favoris = ({navigation}) => {
               paddingHorizontal: 6,
               paddingVertical: 4,
               borderRadius: 4,
-            }}numberOfLines={2}
+            }}
+            numberOfLines={2}
           >
             {product.description}
           </Text>
@@ -111,15 +123,16 @@ const Favoris = ({navigation}) => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-<ScrollView>
-{favorisList.map((el) => (
-   <TouchableOpacity
-   key={el.id}
-   onPress={() => navigation.navigate("Products", el)}
-   >
-<Product product={el} />
-</TouchableOpacity>))}
-</ScrollView>
+      <ScrollView>
+        {favorisList.map((el) => (
+          <TouchableOpacity
+            key={el.id}
+            onPress={() => navigation.navigate("Products", el)}
+          >
+            <Product product={el} />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 };

@@ -15,7 +15,7 @@ const Service = ({ navigation }) => {
 
   useEffect(async () => {
     setUser(JSON.parse(await getUserData()));
-    axios.get("http://10.1.1.217:5000/api/serv/").then((res) => {
+    axios.get("http://192.168.41.80:5000/api/serv/").then((res) => {
       setService(res.data);
 
 
@@ -44,7 +44,7 @@ const Service = ({ navigation }) => {
             <ImageBackground style={styles.image} source={{ uri:serv.icon }}>
                 <Text style={styles.texte}>
                   <FontAwesome
-                    prod_name="wrench"
+                   name="wrench"
                     size={IconSize}
                     color={"white"}
                   />{" "}
