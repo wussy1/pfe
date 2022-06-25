@@ -50,36 +50,32 @@ const Sign_up = ({ navigation }) => {
       return false;
     }
   }
-   function signup() {
-     
-    if ( checkInputs()) {
-     
-     axios
-       .post("http://192.168.103.80:5000/api/user/register", {
-         name: name,
-         email: email,
-         password: password,
-         number: phoneNumber,
-       })
-       .then(async (res) => {
-         if (res.data.exist === false) {
-           console.log("mrigel signup");
-            
-         } else if (res.data.exist === true) {
-           alert("email already exist");
-         }
-         else{
-           console.log("something went wrong")
-         }
-         storeUserData(res.data.exist).then(()=> navigation.reset({
-             index: 0,
-             routes: [{ name: "Login" }],
-           }));
-       }).catch((err)=>console.log("error ="+err));
-   }
-   else{
-     alert("verify inputs balise")
-   }
+  function signup() {
+    if (checkInputs()) {
+      axios
+        .post("http://192.168.1.61:5000/api/user/register", {
+          name: name,
+          email: email,
+          password: password,
+          number: phoneNumber,
+        })
+        .then(async (res) => {
+          if (res.data.exist === false) {
+            console.log("mrigel signup");
+            navigation.navigate({
+              name: "VerifyCode",
+              params: { email, reason: "account verification" },
+            });
+          } else if (res.data.exist === true) {
+            alert("email already exist");
+          } else {
+            console.log("something went wrong");
+          }
+        })
+        .catch((err) => console.log("error =" + err));
+    } else {
+      alert("verify inputs balise");
+    }
   }
 
   const getPhoneNumber = () => {

@@ -37,17 +37,37 @@ const Accueil = ({ navigation }) => {
 
   function getSearched(search) {
     axios
-      .get(`http://192.168.103.80:5000/api/product/prod/${search}`)
+      .get(`http://192.168.1.61:5000/api/product/prod/${search}`)
       .then((result) => {
         setSearchProds(result.data);
       });
   }
-
+  const [carouselItems, setCarousel] = useState([{
+    "vidange": true,
+    "img": "https://cloud.file.cm/i/00028/pgbx3kqahsp9.jpg",
+},
+{
+  "vidange": true,
+  "img": "https://cloud.file.cm/i/00028/fhwtlq9fjjrc.jpg",
+},
+{
+  "vidange": true,
+  "img": "https://cloud.file.cm/i/00028/gys5g6skj6eo.jpg",
+},
+]);
+  function getCarouselItems() {
+    axios
+      .get("http://192.168.1.61:5000/api/ads")
+      .then((result) =>
+        setCarousel((oldArray) => [...oldArray, ...result.data])
+      );
+  }
   useEffect(() => {
+    getCarouselItems();
     getUserData().then((res) => {
       setUser(JSON.parse(res));
     });
-    axios.get("http://192.168.103.80:5000/api/product/").then((res) => {
+    axios.get("http://192.168.1.61:5000/api/product/").then((res) => {
       console.log("********************************");
       StatusBar.setBackgroundColor("#333333");
       console.log(res.data);
@@ -55,42 +75,20 @@ const Accueil = ({ navigation }) => {
     });
   }, []);
 
-  const [carouselItems, setCarousel] = useState([
-    {
-      title: "Item 1",
-      text: "Text 1",
-    },
-    {
-      title: "Item 2",
-      text: "Text 2",
-    },
-    {
-      title: "Item 3",
-      text: "Text 3",
-    },
-    {
-      title: "Item 4",
-      text: "Text 4",
-    },
-    {
-      title: "Item 5",
-      text: "Text 5",
-    },
-  ]);
-
   function _renderItem({ item, index }) {
     return (
-      <View
-        style={{
-          backgroundColor: "floralwhite",
-          borderRadius: 5,
-          height: 150,
-          padding: 35,
-        }}
-      >
-        <Text style={{ fontSize: 30 }}>{item.title}</Text>
-        <Text>{item.text}</Text>
-      </View>
+      <TouchableOpacity onPress={() => item.vidange?navigation.navigate("Form_serv",{id:22,name:"Vidange"}):navigation.navigate("Products", item)}>
+        <ImageBackground
+          resizeMode="stretch"
+          source={{
+            uri: item.img,
+          }}
+          style={{
+            borderRadius: 5,
+            height: 150,
+          }}
+        ></ImageBackground>
+      </TouchableOpacity>
     );
   }
 
@@ -177,7 +175,8 @@ const Accueil = ({ navigation }) => {
               paddingHorizontal: 6,
               paddingVertical: 4,
               borderRadius: 4,
-            }}numberOfLines={2}
+            }}
+            numberOfLines={2}
           >
             {product.description}
           </Text>
@@ -349,15 +348,11 @@ const Accueil = ({ navigation }) => {
             </Text>
             <TouchableOpacity
               style={{ borderWidth: 1, height: "80%", width: "100%" }}
-              onPress={() => navigation.navigate("Service")}
+              onPress={() => navigation.navigate("serviceAcc")}
             >
               <ImageBackground style={styles.image} source={h}>
                 <Text style={styles.text}>
-                  <FontAwesome
-                    name="wrench"
-                    size={IconSize}
-                    color={"white"}
-                  />{" "}
+                  <FontAwesome name="wrench" size={IconSize} color={"white"} />{" "}
                   Prendre rendez-vous{" "}
                 </Text>
               </ImageBackground>
@@ -377,13 +372,10 @@ const Accueil = ({ navigation }) => {
                 color: "white",
                 fontWeight: "bold",
                 padding: 10,
-              }}>
-              <Ionicons
-                    name="flash"
-                    size={IconSize}
-                    color={"white"}
-            />
-             {""} Vente Flash
+              }}
+            >
+              <Ionicons name="flash" size={IconSize} color={"white"} />
+              {""} Vente Flash
             </Text>
             <Text
               style={{

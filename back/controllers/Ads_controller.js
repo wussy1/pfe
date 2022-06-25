@@ -11,6 +11,7 @@ export const getAds = async (req, res) => {
       .select("*")
       .from("advertisement").innerJoin("products","products.id_prod","advertisement.product")
       .then((result) => {
+        console.log(result)
         res.json(result);
       })
       .catch((err) => res.status(400).json("Error: " + err));

@@ -46,7 +46,7 @@ const TypeEmail = ({ navigation, route }) => {
   function sendCode() {
     if (code.length > 0) {
       axios
-        .post("http://192.168.103.80:5000/api/user/forgetpassword", {
+        .post("http://192.168.1.61:5000/api/user/forgetpassword", {
           email: code,
         })
         .then((result) => {

@@ -59,11 +59,18 @@ export const registerUser = async (req, res) => {
         con
           .insert(newUser)
           .into("users")
-          .then(async () => {
+          .then(async (addeduser) => {
             await sendMailTo(email, randomcode, "Please Verify Your Account");
-            return res.status(200).json({
-              exist: false,
-            });
+            console.log("new added user is");
+            console.log(addeduser[0]);
+            await con
+              .insert({ user_id: addeduser })
+              .into("panier")
+              .then(() => {
+                return res.status(200).json({
+                  exist: false,
+                });
+              });
           })
           .catch((err) =>
             res.status(200).json({
@@ -93,11 +100,7 @@ export const forgetPassword = async (req, res) => {
           .update({ verificationCode: verifcode })
           .where("email", email)
           .then((resultfinal) => {
-            sendMailTo(
-              email,
-              verifcode,
-              "Verification Code"
-            ).then(() => {
+            sendMailTo(email, verifcode, "Verification Code").then(() => {
               return res.status(200).json({
                 message: "ok",
               });
@@ -118,7 +121,7 @@ export const verifyCode = async (req, res) => {
       .update({ active: 1, verificationCode: null })
       .whereRaw(`verificationCode = BINARY "${code}"`)
       .then((result) => {
-        console.log(result)
+        console.log(result);
         if (result == 1) {
           return res.status(200).json({
             message: "success",
@@ -174,13 +177,10 @@ export const loginUser = async (req, res) => {
         message: err,
       })
     );
-
-    
 };
 
-
-export const updateUserPasswordbyEmail = async(req,res)=>{
-  const { email,password } = req.body;
+export const updateUserPasswordbyEmail = async (req, res) => {
+  const { email, password } = req.body;
   const salt = bcrypt.genSaltSync(9);
   const hash = bcrypt.hashSync(password, salt);
   const updatedUser = { password: hash };
@@ -195,7 +195,7 @@ export const updateUserPasswordbyEmail = async(req,res)=>{
       });
     })
     .catch((err) => res.status(400).json("Error: " + err));
-}
+};
 export const updateUserPassword = async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;

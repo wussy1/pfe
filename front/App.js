@@ -62,8 +62,7 @@ export default function App() {
       <Stack.Screen name="Profil" options={{headerShown: false}} component={Profil} />
       <Stack.Screen name="Apd_passe" options={{headerShown: false}} component={Apd_passe} />
       <Stack.Screen name="Panier"  options={{headerShown: false}} component={Panier} />
-      <Stack.Screen name="Service"  component={Service} />  
-      <Stack.Screen name="Form_serv"  component={Form_serv} /> 
+      <Stack.Screen name="Service"  component={Service} options={{headerShown: false}} />  
       </Stack.Navigator>
     </NavigationContainer>
   );

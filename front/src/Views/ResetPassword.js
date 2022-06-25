@@ -49,7 +49,7 @@ const ResetPassword = ({ navigation, route }) => {
       if (pass == pass2) {
         setEqual(true);
         axios
-          .put("http://192.168.103.80:5000/api/user/updatepasswordbyemail", {
+          .put("http://192.168.1.61:5000/api/user/updatepasswordbyemail", {
             email: route.params.email,
             password: pass,
           })

@@ -81,6 +81,8 @@ export const DeleteItem = async (req, res) => {
 export const AddItem = async (req, res) => {
   const {id_user,id_prod}=req.body;
 await con.select("id").from("panier").where("user_id",id_user).then(async(idusr)=>{
+  console.log("id el user")
+  console.log(idusr)
   await con
   .select("*")
   .from("commande_products")

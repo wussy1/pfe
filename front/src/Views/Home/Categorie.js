@@ -11,7 +11,7 @@ const Categorie = ({ navigation }) => {
 
     function getCtagoryProds() {
       axios
-        .get(`http://192.168.103.80:5000/api/product/prodbycat/${el.id_cat}`)
+        .get(`http://192.168.1.61:5000/api/product/prodbycat/${el.id_cat}`)
         .then((res) => setCatProds(res.data));
     }
     useEffect(() => {
@@ -157,7 +157,7 @@ const Categorie = ({ navigation }) => {
 
   useEffect(() => {
     axios
-      .get("http://192.168.103.80:5000/api/cat")
+      .get("http://192.168.1.61:5000/api/cat")
       .then((res) => setCategories(res.data));
   }, []);
 

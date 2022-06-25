@@ -9,7 +9,7 @@ const Promition = ({navigation}) => {
   useEffect(() => {
     getUserData().then((res) => {
       axios
-        .get(`http://192.168.103.80:5000/api/product/discount`)
+        .get(`http://192.168.1.61:5000/api/product/discount`)
         .then((result) => {
           setPromo(result.data);
           console.log(result.data);

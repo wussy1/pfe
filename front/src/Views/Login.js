@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
   function signin() {
     console.log("executing");
     axios
-      .post("http://192.168.103.80:5000/api/user/login", {
+      .post("http://192.168.1.61:5000/api/user/login", {
         email: email,
         password: password,
       })
@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
             );
 
             axios
-              .post("http://192.168.103.80:5000/api/user/forgetpassword", {
+              .post("http://192.168.1.61:5000/api/user/forgetpassword", {
                 email: email,
               })
               .then(() => {

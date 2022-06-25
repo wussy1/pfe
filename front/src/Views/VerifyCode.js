@@ -17,7 +17,7 @@ import axios from "axios";
 const VerifyCode = ({ navigation, route }) => {
   let clockCall = null;
   const defaultCountdown = 30;
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(30);
   const [enableResend, setEnableResend] = useState(false);
   const [code, setCode] = useState("");
   const [user, setUser] = useState("");
@@ -45,7 +45,7 @@ const VerifyCode = ({ navigation, route }) => {
 
   function resendCode() {
     axios
-      .post("http://192.168.103.80:5000/api/user/forgetpassword", {
+      .post("http://192.168.1.61:5000/api/user/forgetpassword", {
         email: route.params.email,
       })
       .then(() => {
@@ -57,7 +57,7 @@ const VerifyCode = ({ navigation, route }) => {
 
   const Ok = async () => {
     await axios
-      .get("http://192.168.103.80:5000/api/user/verifycode/" + `${code}`)
+      .get("http://192.168.1.61:5000/api/user/verifycode/" + `${code}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.message == "success") {

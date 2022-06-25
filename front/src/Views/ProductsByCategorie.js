@@ -7,7 +7,7 @@ const ProductsByCategorie = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   function getProds() {
     axios
-      .get(`http://192.168.103.80:5000/api/product/prodbycat/${CatId}`)
+      .get(`http://192.168.1.61:5000/api/product/prodbycat/${CatId}`)
       .then((res) => setProducts(res.data));
   }
   useEffect(() => {
